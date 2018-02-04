@@ -1,0 +1,134 @@
+extends layout
+
+<!--suppress XmlUnboundNsPrefix -->
+block head
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  link(rel='stylesheet', href='/libs/bootstrap-css/css/bootstrap.css')
+  link(rel='stylesheet', href='/stylesheets/overrides.css')
+  link(href="https://fonts.googleapis.com/css?family=Roboto", rel="stylesheet")
+  //todo refactor to hosted font
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet', href='/stylesheets/lib/loading-bar.css')
+
+  script(type='text/javascript', src='/socket.io/socket.io.js')
+  script(type='text/javascript', src='/javascripts/controllers/DrinkController.js')
+  script(type='text/javascript', src='/javascripts/robot/frontend.js')
+  script(type='text/javascript', src='/javascripts/lib/loading-bar.js')
+
+  script(type='text/javascript', src='/libs/bootstrap-javascript/bootstrap.js')
+
+  link(rel='icon', href='/images/favicons/fit32.jpg', sizes='32x32')
+  link(rel='icon', href='/images/favicons/fit192.jpg', sizes='192x192')
+  link(rel='apple-touch-icon-precomposed', href='/images/favicons/fit180.jpg')
+  meta(name='msapplication-TileImage', content='/images/favicons/fit270.jpg')
+
+
+
+block content
+  div(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); writeNumDuplicates()")
+    nav.navbar.navbar-inverse.navbar-static-top.navbar__no-margin-bottom
+      div.container-fluid
+        div.navbar-header
+          button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#bs-example-navbar-collapse-1" aria-expanded="false")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#")
+            img(alt="BarMachina", src="/images/logo_trans160x14px.png")
+
+        div.collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+          //ul.nav.navbar-nav.navbar-left
+            li
+              a(href="#stepIngredients")
+                img.navbar-stepthumbnail(src="/images/steps/step1_bg.png")
+            li
+              a(href="#drinks")
+                img.navbar-stepthumbnail(src="/images/steps/step2_bg.png")
+            li
+              a(href="#selectSize")
+                img.navbar-stepthumbnail(src="/images/steps/step3_bg.png")
+            li
+              a(href="#mixDrink")
+                img.navbar-stepthumbnail(src="/images/steps/step4_bg.png")
+
+          ul.nav.navbar-nav.navbar-right
+            li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': pumpControlVisible}")
+              a(href="#", ng-click="pumpControlVisible = !pumpControlVisible") Pumper
+            li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': pumpIngredientsListVisible}")
+              a(href="#", ng-click="pumpIngredientsListVisible = !pumpIngredientsListVisible") Ingredienser
+
+    div.panel.panel-inverse(ng-show="pumpControlVisible")
+      div.panel-heading
+        button.close(type="button", ng-click="pumpControlVisible = false")
+          span &times;
+
+      div.panel-body
+        div
+          div.pumpButton(ng-click="addPump()") +
+          div.pumpButton(ng-click="removePump()") -
+        div
+          div.pumpButton.singlePump(ng-repeat="pump in pumps.ingredients") {{$index}}
+          div#allPumps.pumpButton.small All
+
+    div#fullWidth
+      div#drinkScope.container-fluid
+        div#cover
+
+          div#pumps.row
+            div.col-md-6.col-md-push-3.welcome-bar
+
+              h2#stepIngredients.section(style="margin-top: 20vh;")
+                img(alt="BarMachina", src="/images/logo_kuba.png")
+
+            div.col-md-10.col-md-push-1#pumpIngredientsList(ng-show="pumpIngredientsListVisible")
+              div.pumpContainer(ng-repeat="pump in pumps.ingredients")
+                span(style="min-width:7em;display: inline-block;")
+                  | Slot {{$index+1}}
+                select.mixers(ng-change="savePumpValue($index); writeNumDuplicates()", ng-model="pump.ingredient", ng-options="i for i in ingredientsList")
+
+        div.below-cover-bg
+          div#drinks
+            div.row
+              div.col-md-12
+                h1.section
+                  img.header-stepimage(src="/images/steps/step2_bg.png")
+                  | Bestem en drink
+
+            div.row
+              div.col-md-10.col-md-push-1
+                div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)")
+                  div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
+                    ul
+                      li.ingredientText(ng-repeat="ingredient in drink.ingredients")
+                        | {{ingredient.name}}
+                  div.drinkImage(class="{{selectedDrink}}", style="opacity: 1.0; background-image: url('/images/drinks/{{drink.image || \'no_image.jpg\'}}')")
+                    div.drinkName
+                      | {{drink.name}}
+
+
+          div#selectSize
+            div.row
+              div.col-md-3
+                //img.header-stepimage(src="/images/steps/step3_bg.png")
+              div.col-md-2
+                div#sizeSmall.drinkSize(ng-click="selectSize('40')") Shot
+              div.col-md-2
+                div#sizeMedium.drinkSize(ng-click="selectSize('200')") Normal
+              div.col-md-2
+                div#sizeLarge.drinkSize(ng-click="selectSize('400')")  Extra
+
+
+          div#mixDrink
+            div.row
+              div.col-md-12
+                div#make(ng-class="{'btn__make-drink': true, 'noselection':!selectedDrink.name}")
+                  div.glass-icon-progressbar.ldBar#pourProgress(data-type="fill", data-fill-background="#000", data-img="/images/noun_790897_cc.svg", data-fill-background-extrude="-1", data-value="0", data-fill-dir="btt")
+
+
+        footer.row
+          div.col-md-12
+            img.navbar-logo-fit(alt="BarMachina", src="/images/logo_trans160x14px.png")
+
+block foot
+  

@@ -1,0 +1,430 @@
+
+/*.styleguide {*/
+
+/*!*Font in context menu*!*/
+/*color: #777777;*/
+/*!*Most commonly used yellow*!*/
+/*color: #e5c759;*/
+/*!*Backgrounds*!*/
+  /*color: #222222;*/
+/*!*Black in header*!*/
+/*color: #242424;*/
+/*!*Bottom color (header)*!*/
+/*color: #f2f2f2;*/
+/*!*Headlines*!*/
+/*color: #fcfcfc;*/
+/*!*Footer*!*/
+/*color: #000000;*/
+/*!*Text in footer*!*/
+/*color: #333333;*/
+
+/*.color1 { color: #47704c}*/
+/*.color2 { color: #000000}*/
+/*.color3 { color: #020101}*/
+/*.color4 { color: #f0c84f}*/
+/*.color5 { color: #32290d}*/
+
+/*5F3C38*/
+ /*A33931*/
+
+/*}*/
+.aqwswwd {
+  /* RGB */
+  color: #e5c759;
+  color: #f2e3ae;
+  color: #222222;
+  color: #f4c92e;
+  color: #5F3C38;
+  color: #A33931;
+}
+
+.panel.panel-inverse {
+    background-color: #222222;
+}
+
+body {
+  font-family: Roboto, Helvetica, sans-serif;
+}
+
+a {
+  color: #e5c759;
+}
+
+.header-stepimage {
+  height: 1.25em;
+}
+
+.navbar__no-margin-bottom {
+    margin-bottom: 0;
+}
+
+.navbar-nav__adjust-to-larger-navbar-brand {
+    margin-top: .5em;
+}
+
+.navbar-brand {
+  padding: 30px;
+  margin-bottom: 1em;
+}
+
+img.navbar-stepthumbnail {
+  max-height: 2em;
+}
+
+#fullWidth {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Cover */
+
+#cover {
+  display: inline-block;
+  padding: 0px;
+  width: 100%;
+  min-height: 66vh;
+  background-color: #232323;
+  background-size: cover;
+}
+
+@media (max-width: 991px) {
+  #cover {
+    height: auto;
+  }
+}
+
+.welcome-bar {
+  color: #f0f0f0;
+}
+
+.welcome-bar img {
+  max-width: 100%;
+}
+
+.title {
+  font-size: 120px;
+  text-align: center;
+  line-height: 150px;
+  font-weight: 100;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.subtitle {
+  font-size: 61px;
+  text-align: center;
+  line-height: 50px;
+  margin: -10px 0px 30px 0px;
+}
+
+.section {
+  font-size: 2em;
+  margin: 0.5em;
+  color: #d0d0d0;
+}
+
+.below-cover-bg {
+  background: rgba(68,68,68,1);
+  background: -moz-linear-gradient(top, rgba(68,68,68,1) 0%, rgba(68,68,68,1) 9%, rgba(16,16,16,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(68,68,68,1)), color-stop(9%, rgba(68,68,68,1)), color-stop(100%, rgba(16,16,16,1)));
+  background: -webkit-linear-gradient(top, rgba(68,68,68,1) 0%, rgba(68,68,68,1) 9%, rgba(16,16,16,1) 100%);
+  background: -o-linear-gradient(top, rgba(68,68,68,1) 0%, rgba(68,68,68,1) 9%, rgba(16,16,16,1) 100%);
+  background: -ms-linear-gradient(top, rgba(68,68,68,1) 0%, rgba(68,68,68,1) 9%, rgba(16,16,16,1) 100%);
+  background: linear-gradient(to bottom, rgba(68,68,68,1) 0%, rgba(68,68,68,1) 9%, rgba(16,16,16,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444444', endColorstr='#101010', GradientType=0 );
+}
+
+/* Drink Controls */
+#drinks {
+  text-align: center;
+  line-height: 0px;
+  padding-top: 5vh;
+  margin-bottom: 10vh;
+}
+
+#drinkScope {
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+  cursor: default;
+}
+
+.drinkContainer {
+  display: inline-block;
+  height: 180px;
+  width: 180px;
+  margin: 10px;
+  line-height: 0.9em;
+  background-color: #A33931;
+}
+
+.drinkImage {
+  display: inline-block;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.drinkName {
+  float: left;
+  width: 100%;
+  bottom: 0px;
+  color: #f2f2f2;
+  background-color: rgba(34,34,34,0.6);
+  padding: 10px;
+  font-size: 1em;
+}
+
+.hiddenIngredientFloat {
+  position: absolute;
+  text-align: left;
+  z-index: 1;
+  line-height: 0.6em;
+  padding-right: 20px;
+  padding-top: 10px;
+  background-color: rgba(34,34,34,0.7);
+}
+
+.hiddenIngredients {
+  visibility: hidden;
+}
+
+.selectedHiddenIngredient {
+  display: inline-block !important;
+}
+
+.ingredientText {
+  font-size: 0.5em;
+  list-style-type: none;
+  margin-left: -20px;
+  color: #f2f2f2;
+}
+
+.left-align {
+  display: inline-block;
+  text-align: left !important;
+}
+
+.selectedDrink {
+  /*border: 10px solid #FF0000 !important;*/
+  -webkit-filter: brightness(125%);
+  opacity: 0.7 !important;
+  visibility: visible;
+}
+
+
+/* Sidebar */
+#launcher {
+  display: inline-block;
+  position: fixed;
+  width: 240px;
+  text-align: left;
+  height: 100%;
+  background-color: #A33931;
+  padding: 10px;
+  z-index: 1;
+  color: #f2f2f2;
+  text-shadow: 2px 2px 4px #555555;
+}
+
+#selectedDrink {
+  height: 220px;
+  width: 220px;
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: #A33931;
+}
+
+#selectSize {
+  /*background-color: #e74c3c;*/
+  width: 100%;
+  margin: 70px 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+@keyframes AnimationName {
+  from {
+    box-shadow: 0px 0px 6px 1px #e5c759, 0 0 2px inset #000;
+  }
+  to {
+    box-shadow: 0px 0px 4px 4px #e5c759, 0 0 2px inset #000;
+  }
+}
+
+.drinkSize {
+  display: inline-block;
+  width: 180px;
+  height: 100px;
+  margin: 0.2em;
+  font-size: 48px;
+  line-height: 110px;
+  border-radius: 15px;
+  vertical-align: middle;
+
+  background: #777;
+  /*color: white;*/
+
+  -webkit-animation: AnimationName 1.5s alternate ease infinite;
+  -moz-animation: AnimationName 1.5s alternate ease infinite;
+  animation: AnimationName 1.5s alternate ease infinite;
+}
+
+.drinkSize.selectedSize {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+
+  background: #e5c759 !important;
+  -webkit-animation: none;
+  -moz-animation: none;
+  animation: none;
+}
+
+.disabled {
+  color: #CCCCCC !important;
+}
+
+.noselection {
+  background-color: #777777 !important;
+}
+
+.selectedSize {
+  background-color: #e5c759 !important;
+}
+
+.btn__make-drink {
+  display: inline-block;
+  width: 6em;
+  height: 6em;
+
+  margin: 1em;
+  padding: 1em;
+
+  border-radius: 100%;
+  vertical-align: middle;
+  background-color: #A33931;
+}
+
+.glass-icon-progressbar {
+  position: relative;
+
+  /*this prevents loading-bar lib from auto-setting width, height in pixels*/
+  height: 100% !important;
+  width: auto !important;
+}
+
+.glass-icon-progressbar .ldBar-label {
+  display: none;
+}
+
+/* Pump Controls */
+#pumps {
+  text-align: center;
+  margin-bottom: 10vh;
+  margin-top: 5vh;
+  cursor: default;
+}
+
+.pumpContainer {
+  display: inline-block;
+  margin: 0px;
+  color: #e5c759;
+}
+
+.mixers {
+  background-color: #020202;
+  color: #f0f0f0;
+  margin: 2px;
+  margin-right: 1em;
+  font-size: 1em;
+  padding-left: 1em;
+  border: 5px solid #e5c759;
+}
+
+#pumpControlToggle {
+  width: 90px;
+}
+
+.floatingPumpButtons {
+  display: inline-block;
+  position: absolute;
+  top: 60px;
+  right: 0px;
+}
+
+#hiddenPumpControls {
+  display: inline-block;
+  position: absolute;
+  width: 500px;
+  text-align: right;
+  height: 50px;
+  top: 50px;
+  right: 0px;
+}
+
+#plusMinus {
+  display: inline-block;
+  position: absolute;
+  margin-top: 0px;
+  margin-left: -100px;
+}
+
+#allPumps {
+  font-size: 15px;
+}
+
+.active {
+  color: #e5c759 !important;
+  background-color: #f2f2f2 !important;
+}
+
+.pumpButton {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 25px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+}
+
+.singlePump {
+  font-size: 15px !important;
+}
+
+/* Add */
+
+.addForm {
+  width: 180px;
+}
+
+/* Edit */
+
+.editRow {
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f2f2f2;
+}
+
+
+/* Footer */
+footer {
+  background-color: #0a0a0a;
+}
+
+.footerText {
+  font-size: 0.7em;
+  color: #777777;
+  text-align: center;
+}
