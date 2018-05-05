@@ -187,17 +187,28 @@ function makeDrink(ingredients, pumps, drinkSize) {
     return;
   }
 
-  // Get largest amount and index of that ingredient
-  var largestAmount = 0;
-  var amountTotal = 0;
-  var largestIndex = 0;
-  for (var i in ingredients) {
-    amountTotal += Number(ingredients[i].amount);
-    if (Number(ingredients[i].amount) > largestAmount) {
-      largestAmount = ingredients[i].amount;
-      largestIndex = i;
-    }
+  // Work out how long each ingredient should be poured for, based on the ml value
+  var msPerMl = 125; // This is how long it takes to pour 1 ml
 
+// TODO: Remove old code after testing
+//   // Get largest amount and index of that ingredient
+//   var largestAmount = 0;
+//   var amountTotal = 0;
+//   var largestIndex = 0;
+  for (var i in ingredients) {
+//     amountTotal += Number(ingredients[i].amount);
+//     if (Number(ingredients[i].amount) > largestAmount) {
+//       largestAmount = ingredients[i].amount;
+//       largestIndex = i;
+//     }
+// 
+    // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
+    ingredients[i].amount = Math.floor(Number(ingredients[i].amount) * msPerMl);
+    console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
+    
+    // Increase the total pump time to add on the amount for this ingredient
+    $scope.pumpTime += ingredients[i].amount;
+    
     // Append pump numbers to the ingredients
     for (var j in pumps.ingredients) {
       if (ingredients[i].name === pumps.ingredients[j].ingredient) {
@@ -206,22 +217,23 @@ function makeDrink(ingredients, pumps, drinkSize) {
       }
     }
   }
-
-  // Normalize
-  var normFactor = drinkSize/amountTotal;
-
-  var totalPumpMilliseconds = parseInt(normFactor * largestAmount); 
-  $scope.pumpTime = totalPumpMilliseconds;
-
-  // Set the normalized amount and delay for each ingredient
-  ingredients[largestIndex].amount = parseInt(normFactor * Number(ingredients[largestIndex].amount));
-  ingredients[largestIndex].delay = 0;
-  for (var i in ingredients) {
-    if (i === largestIndex) continue;
-    ingredients[i].amount = parseInt(normFactor * Number(ingredients[i].amount));
-    ingredients[i].delay = ingredients[largestIndex].amount - ingredients[i].amount;
-  }
-
+// 
+//   // Normalize
+//   var normFactor = drinkSize/amountTotal;
+// 
+//   var totalPumpMilliseconds = parseInt(normFactor * largestAmount); 
+//   $scope.pumpTime = totalPumpMilliseconds;
+// 
+//   // Set the normalized amount and delay for each ingredient
+//   ingredients[largestIndex].amount = parseInt(normFactor * Number(ingredients[largestIndex].amount));
+//   ingredients[largestIndex].delay = 0;
+//   for (var i in ingredients) {
+//     if (i === largestIndex) continue;
+//     ingredients[i].amount = parseInt(normFactor * Number(ingredients[i].amount));
+//     ingredients[i].delay = ingredients[largestIndex].amount - ingredients[i].amount;
+//   }
+  
+  
   socket.emit("Make Drink", ingredients);
 }
 
