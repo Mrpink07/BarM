@@ -21,10 +21,18 @@ block content
           div.col-md-5
             input(ng-model="newDrink.image", placeholder="Relative Link URL")
         div.row
+          div.col-md-3 Measurement
+          div.col-md-5
+            div.toggle-btn-grp
+              input(type="radio", ng-model="newDrink.measurement", value="ml")#measurement-ml
+              label(for="measurement-ml") ml
+              input(type="radio", ng-model="newDrink.measurement", value="pc")#measurement-pc
+              label(for="measurement-pc") pc
+        div.row(ng-show="showIngredients")
           div.col-md-3 Ingredients
           div.col-md-1
             a(ng-click="addNewIngredient()") +
-        div#ingredients.row
+        div#ingredients.row(ng-show="showIngredients")
           div.row(ng-repeat="ingredient in newDrink.ingredients")
             div.col-md-3
             div.col-md-3
