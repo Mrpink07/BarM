@@ -3,8 +3,9 @@ function DrinkController($scope, $http) {
   $scope.newDrink = {
     name: '',
     image: '',
+    measurement: '',
     ingredients: [
-      { name: '', amount: 0 }
+      { name: '', amount: 0, delay: 0 }
     ]
   };
 

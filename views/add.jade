@@ -37,14 +37,20 @@ block content
             a(ng-click="addNewIngredient()") +
         div#ingredients.row(ng-show="showPcIngredients")
           div.row(ng-repeat="ingredient in newDrink.ingredients")
-            div.col-md-3
-            div.col-md-3
-              select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
-                option(value="") -- Choose --
-            div.col-md-3
-              input.addForm.ingredient(ng-model="ingredient.amount", placeholder='0')
-            div.col-md-1
-              a(ng-click="removeIngredient($index)") -
+            div.row
+              div.col-md-3
+              div.col-md-3
+                select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
+                  option(value="") -- Choose --
+              div.col-md-3
+                input.addForm.ingredient(ng-model="ingredient.amount", placeholder='0')
+              div.col-md-1
+                a(ng-click="removeIngredient($index)") -
+            div.row
+              div.col-md-3
+              div.col-md-2 Delay (%)
+              div.col-md-5
+                input.addForm.ingredient(ng-model="ingredient.delay", value="0", type="range", min="0", max="100")
 
         //- Ingredients inputs for ml based measurements
         div.row(ng-show="showMlIngredients")
@@ -56,18 +62,24 @@ block content
           div.col-md-1 Large
         div#ingredients.row(ng-show="showMlIngredients")
           div.row(ng-repeat="ingredient in newDrink.ingredients")
-            div.col-md-3
-            div.col-md-2
-              select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
-                option(value="") -- Choose --
-            div.col-md-1
-              input.addForm.ingredient(ng-model="ingredient.amountSmall", placeholder='0')
-            div.col-md-1
-              input.addForm.ingredient(ng-model="ingredient.amountMedium", placeholder='0')
-            div.col-md-1
-              input.addForm.ingredient(ng-model="ingredient.amountLarge", placeholder='0')
-            div.col-md-1
-              a(ng-click="removeIngredient($index)") -
+            div.row
+              div.col-md-3
+              div.col-md-2
+                select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
+                  option(value="") -- Choose --
+              div.col-md-1
+                input.addForm.ingredient(ng-model="ingredient.amountSmall", placeholder='0')
+              div.col-md-1
+                input.addForm.ingredient(ng-model="ingredient.amountMedium", placeholder='0')
+              div.col-md-1
+                input.addForm.ingredient(ng-model="ingredient.amountLarge", placeholder='0')
+              div.col-md-1
+                a(ng-click="removeIngredient($index)") -
+            div.row
+              div.col-md-3
+              div.col-md-2 Delay (%)
+              div.col-md-5
+                input.addForm.ingredient(ng-model="ingredient.delay", value="0", type="range", min="0", max="100")
 
         //- Show the button if either of the measurement fields are visible
         button.btn(ng-show="showPcIngredients || showMlIngredients") Add Drink
