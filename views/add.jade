@@ -23,16 +23,19 @@ block content
         div.row
           div.col-md-3 Measurement
           div.col-md-5
+            //- This radio button shows the inputs for either ml or % based measurements for ingredients
             div.toggle-btn-grp
-              input(type="radio", ng-model="newDrink.measurement", value="ml")#measurement-ml
+              input(type="radio", ng-model="newDrink.measurement", value="ml", ng-click="showPcIngredients=false; showMlIngredients=true")#measurement-ml
               label(for="measurement-ml") ml
-              input(type="radio", ng-model="newDrink.measurement", value="pc")#measurement-pc
+              input(type="radio", ng-model="newDrink.measurement", value="pc", ng-click="showPcIngredients=true; showMlIngredients=false")#measurement-pc
               label(for="measurement-pc") pc
-        div.row(ng-show="showIngredients")
+
+        //- Ingredients inputs for % based measurements
+        div.row(ng-show="showPcIngredients")
           div.col-md-3 Ingredients
           div.col-md-1
             a(ng-click="addNewIngredient()") +
-        div#ingredients.row(ng-show="showIngredients")
+        div#ingredients.row(ng-show="showPcIngredients")
           div.row(ng-repeat="ingredient in newDrink.ingredients")
             div.col-md-3
             div.col-md-3
@@ -42,4 +45,29 @@ block content
               input.addForm.ingredient(ng-model="ingredient.amount", placeholder='0')
             div.col-md-1
               a(ng-click="removeIngredient($index)") -
-        button.btn Add Drink
+
+        //- Ingredients inputs for ml based measurements
+        div.row(ng-show="showMlIngredients")
+          div.col-md-3 Ingredients
+          div.col-md-2
+            a(ng-click="addNewIngredient()") +
+          div.col-md-1 Small
+          div.col-md-1 Medium
+          div.col-md-1 Large
+        div#ingredients.row(ng-show="showMlIngredients")
+          div.row(ng-repeat="ingredient in newDrink.ingredients")
+            div.col-md-3
+            div.col-md-2
+              select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
+                option(value="") -- Choose --
+            div.col-md-1
+              input.addForm.ingredient(ng-model="ingredient.amountSmall", placeholder='0')
+            div.col-md-1
+              input.addForm.ingredient(ng-model="ingredient.amountMedium", placeholder='0')
+            div.col-md-1
+              input.addForm.ingredient(ng-model="ingredient.amountLarge", placeholder='0')
+            div.col-md-1
+              a(ng-click="removeIngredient($index)") -
+
+        //- Show the button if either of the measurement fields are visible
+        button.btn(ng-show="showPcIngredients || showMlIngredients") Add Drink
