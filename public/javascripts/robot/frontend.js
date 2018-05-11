@@ -69,7 +69,7 @@ $(document).ready(function () {
     }, 200);
 
     // Start dispensing drink
-    makeDrink($scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkTime));
+    makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkTime));
   });
   
   // $('.drinkName').mouseover(function () {
@@ -180,7 +180,7 @@ function animateBackground() {
   });
 }
 
-function makeDrink(ingredients, pumps, drinkSize) {
+function makeDrink(drink, ingredients, pumps, drinkSize) {
   // Check that there are no duplicate pumps ingredients
   if ($scope.pumpDuplicates > 0) {
     alert("Pump values must be unique");
@@ -190,6 +190,50 @@ function makeDrink(ingredients, pumps, drinkSize) {
   // Work out how long each ingredient should be poured for, based on the ml value
   var msPerMl = 125; // This is how long it takes to pour 1 ml
 
+  // If the measurement is percent
+  if (drink.measurement == "pc" || !drink.measurement) {
+    // Go through all of the ingredients
+    for (var i in ingredients) {
+      // Convert the percentage values to ml based on the drink size
+      ingredients[i].amount = Math.floor(drinkSize * Number(ingredients[i].amount));
+      // Convert the amount into milliseconds
+      ingredients[i].amount = ingredients[i].amount * msPerMl;
+
+      // Increase the total pump time to add on the amount for this ingredient
+      $scope.pumpTime += ingredients[i].amount;
+      
+      // Append pump numbers to the ingredients
+      for (var j in pumps.ingredients) {
+        if (ingredients[i].name === pumps.ingredients[j].ingredient) {
+          ingredients[i].pump = pumps.ingredients[j].label;
+          continue;
+        }
+      }
+    }
+  } else if (drink.measurement == "ml") {
+  // If the measurement is ml
+    for (var i in ingredients) {
+      // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
+      ingredients[i].amount = Math.floor(Number(ingredients[i].amount) * msPerMl);
+      console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
+      
+      // Increase the total pump time to add on the amount for this ingredient
+      $scope.pumpTime += ingredients[i].amount;
+      
+      // Append pump numbers to the ingredients
+      for (var j in pumps.ingredients) {
+        if (ingredients[i].name === pumps.ingredients[j].ingredient) {
+          ingredients[i].pump = pumps.ingredients[j].label;
+          continue;
+        }
+      }
+    }  
+  }
+ 
+
+
+
+/*
 // TODO: Remove old code after testing
 //   // Get largest amount and index of that ingredient
 //   var largestAmount = 0;
@@ -232,7 +276,7 @@ function makeDrink(ingredients, pumps, drinkSize) {
 //     ingredients[i].amount = parseInt(normFactor * Number(ingredients[i].amount));
 //     ingredients[i].delay = ingredients[largestIndex].amount - ingredients[i].amount;
 //   }
-  
+*/  
   
   socket.emit("Make Drink", ingredients);
 }

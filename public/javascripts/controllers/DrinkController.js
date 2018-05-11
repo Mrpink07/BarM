@@ -134,7 +134,7 @@ function DrinkController($scope, $http) {
   };
 
   $scope.addNewIngredient = function () {
-    $scope.newDrink.ingredients.push({ name: '', amount: 0 });
+    $scope.newDrink.ingredients.push({ name: '', amount: 0, delay: 0 });
     console.log('Added new ingredient');
   };
 

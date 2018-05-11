@@ -48,7 +48,7 @@ block content
                 a(ng-click="removeIngredient($index)") -
             div.row
               div.col-md-3
-              div.col-md-2 Delay (%)
+              div.col-md-2 Delay ({{ingredient.delay}}%)
               div.col-md-5
                 input.addForm.ingredient(ng-model="ingredient.delay", value="0", type="range", min="0", max="100")
 
@@ -77,7 +77,7 @@ block content
                 a(ng-click="removeIngredient($index)") -
             div.row
               div.col-md-3
-              div.col-md-2 Delay (%)
+              div.col-md-2 Delay ({{ingredient.delay}}%)
               div.col-md-5
                 input.addForm.ingredient(ng-model="ingredient.delay", value="0", type="range", min="0", max="100")
 
