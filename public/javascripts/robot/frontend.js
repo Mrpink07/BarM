@@ -69,7 +69,7 @@ $(document).ready(function () {
     }, 200);
 
     // Start dispensing drink
-    makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkTime));
+    makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkSize));
   });
   
   // $('.drinkName').mouseover(function () {
@@ -193,12 +193,16 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
   // If the measurement is percent
   if (drink.measurement == "pc" || !drink.measurement) {
     // Go through all of the ingredients
+    console.log("Measuring using %");
     for (var i in ingredients) {
       // Convert the percentage values to ml based on the drink size
       ingredients[i].amount = Math.floor(drinkSize * Number(ingredients[i].amount));
+      console.log(ingredients[i].name + ": " + ingredients[i].amount + " ml");
+
       // Convert the amount into milliseconds
       ingredients[i].amount = ingredients[i].amount * msPerMl;
-
+      console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
+      
       // Increase the total pump time to add on the amount for this ingredient
       $scope.pumpTime += ingredients[i].amount;
       

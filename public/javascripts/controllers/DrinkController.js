@@ -109,6 +109,7 @@ function DrinkController($scope, $http) {
     for (var i in $scope.sizes) {
       if ($scope.sizes[i].size === size) {
         $scope.drinkTime = $scope.sizes[i].time;
+	$scope.drinkSize = $scope.sizes[i].size;
         return;
       }
     }
