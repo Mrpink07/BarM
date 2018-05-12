@@ -8,6 +8,9 @@ exports.DrinkSchema = new Mongoose.Schema({
   ingredients: [{
     name: String,
     amount: Number,
+    amountSmall: Number,
+    amountMedium: Number,
+    amountLarge: Number,
     delay: Number
   }]
 });

@@ -227,12 +227,28 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
   } else if (drink.measurement == "ml") {
   // If the measurement is ml
     for (var i in ingredients) {
+      // Set the amount size based on the selected drink size
+      switch (drinkSize) {
+        case 40:
+          var amountSize = 'amountSmall';
+          break;
+        case 200:
+          var amountSize = 'amountMedium';
+          break;
+        case 400:
+          var amountSize = 'amountLarge';
+          break;
+      }
+
+      // Write the number of ml to the console
+      console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ml");            
+
       // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
-      ingredients[i].amount = Number(ingredients[i].amount) * msPerMl;
-      console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
+      ingredients[i][amountSize] = Number(ingredients[i][amountSize]) * msPerMl;
+      console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ms");
       
       // Increase the total pump time to add on the amount for this ingredient
-      $scope.pumpTime += ingredients[i].amount;
+      $scope.pumpTime += ingredients[i][amountSize];
       
       // Append pump numbers to the ingredients
       for (var j in pumps.ingredients) {
@@ -243,7 +259,7 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       }
       
       // Put the ingredients back how they were
-      ingredients[i].amount = ingredients[i].amount / msPerMl;
+      ingredients[i][amountSize] = ingredients[i][amountSize] / msPerMl;
     }      
   } 
 
