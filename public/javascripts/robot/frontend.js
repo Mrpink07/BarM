@@ -186,9 +186,15 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
     alert("Pump values must be unique");
     return;
   }
+  
+  // Reset the pump time
+  $scope.pumpTime = 0;
 
   // Work out how long each ingredient should be poured for, based on the ml value
   var msPerMl = 125; // This is how long it takes to pour 1 ml
+
+  // Create a temp variable to stor the ingredients
+  var origIngredients = ingredients;
 
   // If the measurement is percent
   if (drink.measurement == "pc" || !drink.measurement) {
@@ -196,7 +202,7 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
     console.log("Measuring using %");
     for (var i in ingredients) {
       // Convert the percentage values to ml based on the drink size
-      ingredients[i].amount = Math.floor(drinkSize * Number(ingredients[i].amount));
+      ingredients[i].amount = drinkSize * Number(ingredients[i].amount);
       console.log(ingredients[i].name + ": " + ingredients[i].amount + " ml");
 
       // Convert the amount into milliseconds
@@ -213,12 +219,16 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
           continue;
         }
       }
+      
+      // Put the ingredients back how they were
+      ingredients[i].amount = ingredients[i].amount / msPerMl;
+      ingredients[i].amount = ingredients[i].amount / drinkSize;
     }
   } else if (drink.measurement == "ml") {
   // If the measurement is ml
     for (var i in ingredients) {
       // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
-      ingredients[i].amount = Math.floor(Number(ingredients[i].amount) * msPerMl);
+      ingredients[i].amount = Number(ingredients[i].amount) * msPerMl;
       console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
       
       // Increase the total pump time to add on the amount for this ingredient
@@ -231,9 +241,11 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
           continue;
         }
       }
-    }  
-  }
- 
+      
+      // Put the ingredients back how they were
+      ingredients[i].amount = ingredients[i].amount / msPerMl;
+    }      
+  } 
 
 
 
