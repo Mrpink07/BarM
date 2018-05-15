@@ -221,8 +221,8 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       }
       
       // Put the ingredients back how they were
-      ingredients[i].amount = ingredients[i].amount / msPerMl;
-      ingredients[i].amount = ingredients[i].amount / drinkSize;
+      //ingredients[i].amount = ingredients[i].amount / msPerMl;
+      //ingredients[i].amount = ingredients[i].amount / drinkSize;
     }
   } else if (drink.measurement == "ml") {
   // If the measurement is ml
@@ -259,7 +259,7 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       }
       
       // Put the ingredients back how they were
-      ingredients[i][amountSize] = ingredients[i][amountSize] / msPerMl;
+      //ingredients[i][amountSize] = ingredients[i][amountSize] / msPerMl;
     }      
   } 
 

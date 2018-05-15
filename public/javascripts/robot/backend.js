@@ -112,6 +112,7 @@ exports.pump = function (ingredients) {
 };
 
 function pumpMilliseconds(pump, ms) {
+  console.log("Pump " + pump + " will run for " + ms + " ms");
   exports.startPump(pump);
   setTimeout(function () {
     exports.stopPump(pump);
