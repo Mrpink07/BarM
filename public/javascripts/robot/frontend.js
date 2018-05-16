@@ -25,6 +25,12 @@ $(document).ready(function () {
       alert('Please select a drink first.');
       return;
     }
+    
+    // Check that a drink size has been selected
+    if ($('.drinkSize').hasClass('selectedSize') === false) {
+      alert('Please select a size.');
+      return;
+    }
 
     if ($('#make').hasClass('disabled') === true) {
       return;
@@ -52,7 +58,9 @@ $(document).ready(function () {
             pourProgress.set(Math.ceil(progress*100));
           },
           done: function () {
-              $('#make').removeClass('disabled');
+              //location.reload(); // Reloading the page will reset the ingredient values
+              //$('#make').removeClass('disabled');
+              $('#make').addClass('noselection');
               pourProgress.set(0);
           }});
     }, 200);
@@ -208,9 +216,9 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       // Convert the amount into milliseconds
       ingredients[i].amount = ingredients[i].amount * msPerMl;
       console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
-      
-      // Increase the total pump time to add on the amount for this ingredient
-      $scope.pumpTime += ingredients[i].amount;
+
+      // The total pump time will be the time the largest ingredient takes to pour
+      if (ingredients[i].amount > $scope.pumpTime) $scope.pumpTime = ingredients[i].amount;
       
       // Append pump numbers to the ingredients
       for (var j in pumps.ingredients) {
@@ -244,11 +252,11 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ml");            
 
       // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
-      ingredients[i][amountSize] = Number(ingredients[i][amountSize]) * msPerMl;
-      console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ms");
+      ingredients[i].amount = Number(ingredients[i][amountSize]) * msPerMl;
+      console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");
       
-      // Increase the total pump time to add on the amount for this ingredient
-      $scope.pumpTime += ingredients[i][amountSize];
+      // The total pump time will be the time the largest ingredient takes to pour
+      if (ingredients[i].amount > $scope.pumpTime) $scope.pumpTime = ingredients[i].amount;
       
       // Append pump numbers to the ingredients
       for (var j in pumps.ingredients) {
@@ -257,12 +265,24 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
           continue;
         }
       }
-      
+
       // Put the ingredients back how they were
       //ingredients[i][amountSize] = ingredients[i][amountSize] / msPerMl;
-    }      
-  } 
+    }
+  }
 
+  // Set a variable for the largest delay value
+  var largestDelay = 0;
+
+  // Now go through the delays and set a ms value for those
+  for (var i in ingredients) {
+    ingredients[i].delay = (Number(ingredients[i].delay) / 100) * $scope.pumpTime;
+    console.log("Delay for " + ingredients[i].name + ": " + ingredients[i].delay + " ms");
+    if (ingredients[i].delay > largestDelay) largestDelay = ingredients[i].delay; // Set the largest delay
+  }
+  
+  // Add the largest delay onto the total time
+  $scope.pumpTime = $scope.pumpTime + largestDelay;
 
 
 /*
