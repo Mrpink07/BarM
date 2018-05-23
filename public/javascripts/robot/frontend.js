@@ -1,6 +1,9 @@
 var socket = io.connect();
 var $scope; 
 
+var msPerMl = 125; // This is how long it takes to pour 1 ml
+
+
 $(document).ready(function () {
   $scope = angular.element($('#drinkScope')).scope();
 
@@ -59,9 +62,50 @@ $(document).ready(function () {
           },
           done: function () {
               //location.reload(); // Reloading the page will reset the ingredient values
-              //$('#make').removeClass('disabled');
-              $('#make').addClass('noselection');
+              $('#make').removeClass('disabled');
+              //$('#make').addClass('noselection');
               pourProgress.set(0);
+              console.log("Drink has finished pouring");
+              
+              // Go through all of the ingredients that have just been used
+              var ingredients = $scope.selectedDrink.ingredients
+              for (var i in ingredients) {
+                console.log(ingredients[i].name + ": " + ingredients[i].amount);
+                
+                if ($scope.selectedDrink.measurement == 'pc' || !$scope.selectedDrink.measurement) {
+                    // Convert the amount back from milliseconds
+                    ingredients[i].amount = ingredients[i].amount / msPerMl;
+                    console.log(ingredients[i].name + ": " + ingredients[i].amount + " ml");
+
+                    // Convert back into a percentage
+                    ingredients[i].amount = $scope.drinkSize / Number(ingredients[i].amount);
+                    console.log(ingredients[i].name + ": " + ingredients[i].amount);
+                } else if ($scope.selectedDrink.measurement == "ml") {
+                    // Set the amount size based on the selected drink size
+                    var drinkSize = parseInt($scope.drinkSize);
+                    console.log("Drink size: " + drinkSize);
+                    switch (drinkSize) {
+                        case 40:
+                            var amountSize = 'amountSmall';
+                            break;
+                        case 200:
+                            var amountSize = 'amountMedium';
+                            break;
+                        case 400:
+                            var amountSize = 'amountLarge';
+                            break;
+                    }
+                    
+                    // Write the number of ml to the console
+                    console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ms");
+
+                    // Get the amount and convert it back to ml
+                    ingredients[i].amount = Number(ingredients[i][amountSize]);
+                }
+                
+                // Reset the delay //TODO
+                //ingredients[i].delay = (ingredients[i].delay / $scope.pumpTime) * 100;
+              }
           }});
     }, 200);
 
@@ -199,10 +243,10 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
   $scope.pumpTime = 0;
 
   // Work out how long each ingredient should be poured for, based on the ml value
-  var msPerMl = 125; // This is how long it takes to pour 1 ml
+  //var msPerMl = 125; // This is how long it takes to pour 1 ml
 
   // Create a temp variable to stor the ingredients
-  var origIngredients = ingredients;
+  $scope.selectedDrink.origIngredients = ingredients;
 
   // If the measurement is percent
   if (drink.measurement == "pc" || !drink.measurement) {
