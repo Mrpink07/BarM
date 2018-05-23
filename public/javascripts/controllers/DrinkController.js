@@ -103,6 +103,14 @@ function DrinkController($scope, $http) {
 
     this.selectedDrink = 'selectedDrink';
     $scope.lastSelected = this;
+    
+    // Check if any of the size buttons need to be disabled
+    $scope.checkSizesAvailable(drink);
+  };
+  
+  // Check which sizes are available from the drink's settings, and disable any buttons that aren't available
+  $scope.checkSizesAvailable = function (drink) {
+      console.log(drink);
   };
 
   $scope.selectSize = function (size) {

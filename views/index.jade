@@ -97,7 +97,7 @@ block content
 
             div.row
               div.col-md-10.col-md-push-1
-                div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name'", ng-click="selectDrink(drink)")
+                div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)")
                   div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
                     ul
                       li.ingredientText(ng-repeat="ingredient in drink.ingredients")
