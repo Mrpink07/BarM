@@ -25,7 +25,6 @@ $(document).ready(function () {
   // Set the original delay for each ingredient
   var allDrinks = $scope.drinks;
   for (var d in allDrinks) {
-    console.log(allDrinks[d].name);
     
     // Go through the ingredients for the current drink
     var thisIngredients = allDrinks[d].ingredients;
