@@ -31,6 +31,7 @@ $(document).ready(function () {
     var thisIngredients = allDrinks[d].ingredients;
     for (var i in thisIngredients) {
       thisIngredients[i].delayOrig = thisIngredients[i].delay; // Set the delayOrig field with the original delay
+      thisIngredients[i].amountOrig = thisIngredients[i].amount; // Set the amountOrig field with the original amount      
     }
   }
 
@@ -85,12 +86,8 @@ $(document).ready(function () {
                 console.log(ingredients[i].name + ": " + ingredients[i].amount);
                 
                 if ($scope.selectedDrink.measurement == 'pc' || !$scope.selectedDrink.measurement) {
-                    // Convert the amount back from milliseconds
-                    ingredients[i].amount = ingredients[i].amount / msPerMl;
-                    console.log(ingredients[i].name + ": " + ingredients[i].amount + " ml");
-
-                    // Convert back into a percentage
-                    ingredients[i].amount = $scope.drinkSize / Number(ingredients[i].amount);
+                    // Convert amount back to the original
+                    ingredients[i].amount = ingredients[i].amountOrig;
                     console.log(ingredients[i].name + ": " + ingredients[i].amount);
                 } else if ($scope.selectedDrink.measurement == "ml") {
                     // Set the amount size based on the selected drink size
