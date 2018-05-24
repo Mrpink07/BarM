@@ -21,6 +21,18 @@ $(document).ready(function () {
   $('.mixers').on('change click touch blur', function () {
     resizeContainers();
   });
+  
+  // Set the original delay for each ingredient
+  var allDrinks = $scope.drinks;
+  for (var d in allDrinks) {
+    console.log(allDrinks[d].name);
+    
+    // Go through the ingredients for the current drink
+    var thisIngredients = allDrinks[d].ingredients;
+    for (var i in thisIngredients) {
+      thisIngredients[i].delayOrig = thisIngredients[i].delay; // Set the delayOrig field with the original delay
+    }
+  }
 
   // Front end drink making
   $('#make').on('click touch', function () {
@@ -103,8 +115,8 @@ $(document).ready(function () {
                     ingredients[i].amount = Number(ingredients[i][amountSize]);
                 }
                 
-                // Reset the delay //TODO
-                //ingredients[i].delay = (ingredients[i].delay / $scope.pumpTime) * 100;
+                // Reset the delay
+                ingredients[i].delay = ingredients[i].delayOrig; 
               }
           }});
     }, 200);
