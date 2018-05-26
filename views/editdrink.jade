@@ -8,7 +8,7 @@ block head
   script(type='text/javascript', src='/javascripts/robot/frontend.js')
 
 block content
-  div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} )")
+  div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} )")
     div.row
       div.col-md-2
       div.col-md-8
@@ -21,22 +21,21 @@ block content
       div.col-md-1
       div.col-md-5 
         b Ingredients
-    div.row.editRow(ng-repeat="drink in drinks | orderBy: 'name'")
-      form(ng-submit="editDrink(drink)")
+    div.row.editRow
+      form(ng-submit="editDrink(drinks)")
         div.col-md-3 
-          input(value="{{drink.name}}", ng-model="drink.name")
-          a(href="/editdrink/{{drink._id}}") edit
+          input(value="{{drinks.name}}", ng-model="drinks.name")
         div.col-md-3
-          input(value="{{drink.image}}", ng-model="drink.image")
+          input(value="{{drinks.image}}", ng-model="drinks.image")
         div.col-md-1.text-right 
-          a(ng-click="addNewIngredient()") +
+          a(ng-click="addNewIngredientEdit()") +
         div.col-md-4
-          div.row(ng-repeat="ingredient in drink.ingredients")
+          div.row(ng-repeat="ingredient in drinks.ingredients")
             div.col-md-7
               select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
             div.col-md-4
               input.addForm.ingredient(value="{{ingredient.amount}}", ng-model="ingredient.amount", style="width: 100px;")
             div.col-md-1 
-              a(ng-click="removeIngredient($index)") -
+              a(ng-click="removeIngredientEdit($index)") -
         div.col-md-1
           button.btn Save

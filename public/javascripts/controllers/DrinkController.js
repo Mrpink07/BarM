@@ -152,6 +152,18 @@ function DrinkController($scope, $http) {
     console.log('Removed ingredient at index ' + index);
   };
 
+  // These functions are similar to the ones above, but to be used on the editdrink page
+  $scope.addNewIngredientEdit = function () {
+  console.log($scope);
+    $scope.drinks.ingredients.push({ name: '', amount: 0, delay: 0 });
+    console.log('Added new ingredient');
+  };
+
+  $scope.removeIngredientEdit = function (index) {
+    $scope.drinks.ingredients.splice(index, 1);
+    console.log('Removed ingredient at index ' + index);
+  };
+
   // Filter for drinks
   $scope.containsIngredients = function (drink) {
     var numIngredients = drink.ingredients.length;

@@ -23,7 +23,7 @@ $(document).ready(function () {
   });
   
   // Set the original delay for each ingredient
-  var allDrinks = $scope.drinks;
+/*  var allDrinks = $scope.drinks;
   for (var d in allDrinks) {
     
     // Go through the ingredients for the current drink
@@ -33,7 +33,7 @@ $(document).ready(function () {
       thisIngredients[i].amountOrig = thisIngredients[i].amount; // Set the amountOrig field with the original amount      
     }
   }
-
+*/
   // Front end drink making
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
@@ -205,6 +205,20 @@ $(document).ready(function () {
   //   resizeContainers();
   // }, 500);
 });
+
+function getOriginalValues () {
+  // Set the original delay for each ingredient
+  var allDrinks = $scope.drinks;
+  for (var d in allDrinks) {
+      
+    // Go through the ingredients for the current drink
+    var thisIngredients = allDrinks[d].ingredients;
+    for (var i in thisIngredients) {
+      thisIngredients[i].delayOrig = thisIngredients[i].delay; // Set the delayOrig field with the original delay
+      thisIngredients[i].amountOrig = thisIngredients[i].amount; // Set the amountOrig field with the original amount      
+    }
+  }
+}
 
 function resizeCover(view) {
   //todo remove this - kuba

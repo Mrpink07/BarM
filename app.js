@@ -14,6 +14,7 @@ var routes = require('./routes/index');
 //var users = require('./routes/users');
 var add = require('./routes/add');
 var edit = require('./routes/edit');
+var editdrink = require('./routes/editdrink');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -42,6 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', routes.index(Drink, Pump));
 app.get('/add', add.form(Drink));
 app.get('/edit', edit.show(Drink));
+app.get('/editdrink/:drinkId', function (req, res) {
+  editdrink.show(Drink, req.params.drinkId, res);
+});
 //app.use('/users', users);
 
 app.post('/updatepump.json', routes.updatePump(Pump));
