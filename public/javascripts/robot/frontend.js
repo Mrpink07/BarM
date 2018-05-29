@@ -55,6 +55,9 @@ $(document).ready(function () {
     console.log('Making Drink');
     $('#make').addClass('disabled');
     $('#makeProgress').show();
+    
+    // Go through and get the original values for the ingredients
+    getOriginalValues();
 
     var drinkEstimatedTimeOfArrival = Date.now() + $scope.pumpTime;
 

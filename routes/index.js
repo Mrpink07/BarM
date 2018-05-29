@@ -8,7 +8,6 @@ exports.index = function (Drink, Pump) {
           drinks: drinks,
           pumps: pumps
         });
-        getOriginalValues();
       });
     });
   };
