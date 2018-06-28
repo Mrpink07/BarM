@@ -1,4 +1,7 @@
 var mongoose = require('mongoose');
+var busboy = require('connect-busboy'); //middleware for form/file upload
+var path = require('path');     //used for file path
+//var fs = require('fs-extra');       //File System - for file manipulation
 
 /* GET edit page */
 exports.show = function (Drink, query, res) {
@@ -29,4 +32,10 @@ exports.updateDrink = function (Drink) {
         }
     });
   };
+};
+
+exports.uploadImage = function (Drink) {
+    return function (req, res) {
+        console.log(req);
+    };
 };

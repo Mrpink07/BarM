@@ -52,6 +52,7 @@ app.post('/updatepump.json', routes.updatePump(Pump));
 app.post('/drink.json', add.addDrink(Drink));
 app.post('/pump.json', add.addPump(Pump));
 app.post('/updatedrink.json', edit.updateDrink(Drink));
+app.post('/uploadimage.json', editdrink.uploadImage(Drink));
 
 
 /// catch 404 and forwarding to error handler

@@ -5,7 +5,7 @@ block head
   link(rel='stylesheet', href='/stylesheets/overrides.css')
   script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/controllers/DrinkController.js')
-  script(type='text/javascript', src='/javascripts/controllers/draggableUI.js')
+  //- script(type='text/javascript', src='/javascripts/controllers/draggableUI.js')
   script(type='text/javascript', src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js')
   script(type='text/javascript', src='/javascripts/robot/frontend.js')
 
@@ -26,7 +26,7 @@ block content
         div.col-md-3 
           input(value="{{drinks.name}}", ng-model="drinks.name")
         div.col-md-3
-          input(value="{{drinks.image}}", ng-model="drinks.image")
+          input(value="{{drinks.image}}", ng-model="drinks.image", type="file", onchange="angular.element(this).scope().uploadFile(this.files)")
 
         div.row
             div.col-md-12
@@ -52,7 +52,10 @@ block content
             div.draggable-ui
               div.container(ng-repeat="ingredient in drinks.ingredients")
                 div.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 );", ng-show="$index == 0") {{ingredient.name}}
-                div.draggable.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 ); left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}") {{ingredient.name}}
+                div.draggable.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 ); margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}")
+                    a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") -
+                    {{ingredient.name}}
+                    a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") +
             
             
         //- Show ingredients for ml drinks
@@ -93,5 +96,9 @@ block content
             div.draggable-ui
               div.container(ng-repeat="ingredient in drinks.ingredients")
                 div.editdrink-slider(style="width: {{ingredient.amountLarge}}px;", ng-show="$index == 0") {{ingredient.name}}
-                div.draggable.editdrink-slider(style="width: {{ingredient.amountLarge}}px; left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}") {{ingredient.name}}
+                div.draggable.editdrink-slider(style="width: {{ingredient.amountLarge}}px; margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", data-delayid="{{ingredient._id}}") 
+                    a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") - 
+                    {{ingredient.name}}
+                    a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") + 
+                
 
