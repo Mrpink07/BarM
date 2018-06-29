@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
-var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
-//var fs = require('fs-extra');       //File System - for file manipulation
+var fs = require('fs');       //File System - for file manipulation
 
 /* GET edit page */
 exports.show = function (Drink, query, res) {
@@ -36,6 +35,39 @@ exports.updateDrink = function (Drink) {
 
 exports.uploadImage = function (Drink) {
     return function (req, res) {
-        console.log(req);
+        var fstream;
+        req.pipe(req.busboy);
+        
+        req.busboy.on('file', function (fieldname, file, filename) {
+            console.log("Uploading: " + filename);
+            
+            // Set the local filename to use on the server
+            var localFile = fieldname;
+            localFile = localFile.replace('-image', '');
+            
+            // Get the file extension
+            var ext = filename.split('.').pop();
+
+            //Path where image will be uploaded
+            console.log(__dirname + '/../public/images/drinks/' + localFile + '.' + ext);
+            fstream = fs.createWriteStream(__dirname + '/../public/images/drinks/' + localFile + '.' + ext);
+            file.pipe(fstream);
+            fstream.on('close', function () {    
+                console.log("Upload Finished of " + localFile + '.' + ext);
+
+                Drink.findOneAndUpdate({ _id: localFile }, 
+                {
+                    image: localFile + '.' + ext,
+                }, 
+                function (err, drink) {
+                    if (drink) {
+                    console.log("Update Drink");
+                    res.send(drink);
+                    }
+                });
+                
+            });
+        });
+        res.redirect('back');           //where to go next
     };
 };

@@ -11,94 +11,102 @@ block head
 
 block content
   div.container-fluid#drinkScope(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} )")
+    //- div.row
+    //-   div.col-md-12
+    //-     form(name="image-upload", id="image-upload-form", action="/uploadimage.json", method="post", enctype="multipart/form-data")
+    //-       input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
+    //-       input(type="button", onclick="$('#image-upload-form').submit()")
+    div.row
+      div.col-md-3 
+        b Name
+      div.col-md-3 
+        b Filename
+      div.col-md-1
+    div.row.editRow
+      div.col-md-3 
+        input(value="{{drinks.name}}", ng-model="drinks.name")
+      div.col-md-3
+        form(name="image-upload", id="image-upload-form", action="/uploadimage.json", method="post", enctype="multipart/form-data")
+          input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
+          button.btn(type="button", onclick="$('#image-upload-form').submit()") Upload Image
+
     form(ng-submit="editDrink(drinks)")
       div.row
         div.col-md-2
         div.col-md-10
           h1.title Edit Drinks
+
       div.row
-        div.col-md-3 
-          b Name
-        div.col-md-3 
-          b Filename
-        div.col-md-1
-      div.row.editRow
-        div.col-md-3 
-          input(value="{{drinks.name}}", ng-model="drinks.name")
-        div.col-md-3
-          input(value="{{drinks.image}}", ng-model="drinks.image", type="file", onchange="angular.element(this).scope().uploadFile(this.files)")
+          div.col-md-12
+          b Ingredients
 
-        div.row
-            div.col-md-12
-            b Ingredients
+      //- Show ingredients for percent drinks
+      div.row(ng-show="drinks.measurement=='pc' || drinks.measurment==''")
+          div.col-md-1 
+          a(ng-click="addNewIngredientEdit()") +
+          div.row(ng-repeat="ingredient in drinks.ingredients")
+              div.container
+                  div.col-md-5
+                    select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
+                  div.col-md-3
+                    input.addForm.ingredient(value="{{ingredient.amount}}", ng-model="ingredient.amount", style="width: 100px;")
+                  div.col-md-3
+                    input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
+                  div.col-md-1 
+                    a(ng-click="removeIngredientEdit($index)") -
+          div.col-md-1
+          button.btn Save
 
-        //- Show ingredients for percent drinks
-        div.row(ng-show="drinks.measurement=='pc' || drinks.measurment==''")
-            div.col-md-1 
-            a(ng-click="addNewIngredientEdit()") +
-            div.row(ng-repeat="ingredient in drinks.ingredients")
-                div.container
-                    div.col-md-5
+          div.draggable-ui
+            div.container(ng-repeat="ingredient in drinks.ingredients")
+              div.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 );", ng-show="$index == 0") {{ingredient.name}}
+              div.draggable.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 ); margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}")
+                  a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") -
+                  {{ingredient.name}}
+                  a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") +
+            
+            
+      //- Show ingredients for ml drinks
+      div.row(ng-show="drinks.measurement=='ml'")
+          div.col-md-1
+          a(ng-click="addNewIngredientEdit()") +
+          div.col-md-12
+            div.row
+              div.col-md-2
+              div.col-md-3
+                b Ingredient
+              div.col-md-1
+                b Small
+              div.col-md-1
+                b Med
+              div.col-md-1
+                b Large
+              div.col-md-1
+                b Delay
+          div.col-md-12
+          div.row(ng-repeat="ingredient in drinks.ingredients")
+              div.container
+                  div.col-md-4
                       select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
-                    div.col-md-3
-                      input.addForm.ingredient(value="{{ingredient.amount}}", ng-model="ingredient.amount", style="width: 100px;")
-                    div.col-md-3
-                      input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
-                    div.col-md-1 
+                  div.col-md-1
+                      input.addForm.ingredient(value="{{ingredient.amountSmall}}", ng-model="ingredient.amountSmall", style="width: 100px;")
+                  div.col-md-1
+                      input.addForm.ingredient(value="{{ingredient.amountMedium}}", ng-model="ingredient.amountMedium", style="width: 100px;")
+                  div.col-md-1
+                      input.addForm.ingredient(value="{{ingredient.amountLarge}}", ng-model="ingredient.amountLarge", style="width: 100px;")
+                  div.col-md-1
+                    input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
+                  div.col-md-1 
                       a(ng-click="removeIngredientEdit($index)") -
-            div.col-md-1
-            button.btn Save
+          div.col-md-1
+          button.btn Save
 
-            div.draggable-ui
-              div.container(ng-repeat="ingredient in drinks.ingredients")
-                div.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 );", ng-show="$index == 0") {{ingredient.name}}
-                div.draggable.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 ); margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}")
-                    a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") -
-                    {{ingredient.name}}
-                    a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") +
-            
-            
-        //- Show ingredients for ml drinks
-        div.row(ng-show="drinks.measurement=='ml'")
-            div.col-md-1
-            a(ng-click="addNewIngredientEdit()") +
-            div.col-md-12
-              div.row
-                div.col-md-2
-                div.col-md-3
-                  b Ingredient
-                div.col-md-1
-                  b Small
-                div.col-md-1
-                  b Med
-                div.col-md-1
-                  b Large
-                div.col-md-1
-                  b Delay
-            div.col-md-12
-            div.row(ng-repeat="ingredient in drinks.ingredients")
-                div.container
-                    div.col-md-4
-                        select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
-                    div.col-md-1
-                        input.addForm.ingredient(value="{{ingredient.amountSmall}}", ng-model="ingredient.amountSmall", style="width: 100px;")
-                    div.col-md-1
-                        input.addForm.ingredient(value="{{ingredient.amountMedium}}", ng-model="ingredient.amountMedium", style="width: 100px;")
-                    div.col-md-1
-                        input.addForm.ingredient(value="{{ingredient.amountLarge}}", ng-model="ingredient.amountLarge", style="width: 100px;")
-                    div.col-md-1
-                      input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
-                    div.col-md-1 
-                        a(ng-click="removeIngredientEdit($index)") -
-            div.col-md-1
-            button.btn Save
-
-            div.draggable-ui
-              div.container(ng-repeat="ingredient in drinks.ingredients")
-                div.editdrink-slider(style="width: {{ingredient.amountLarge}}px;", ng-show="$index == 0") {{ingredient.name}}
-                div.draggable.editdrink-slider(style="width: {{ingredient.amountLarge}}px; margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", data-delayid="{{ingredient._id}}") 
-                    a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") - 
-                    {{ingredient.name}}
-                    a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") + 
-                
+          div.draggable-ui
+            div.container(ng-repeat="ingredient in drinks.ingredients")
+              div.editdrink-slider(style="width: {{ingredient.amountLarge}}px;", ng-show="$index == 0") {{ingredient.name}}
+              div.draggable.editdrink-slider(style="width: {{ingredient.amountLarge}}px; margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", data-delayid="{{ingredient._id}}") 
+                  a(ng-click="decreaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") - 
+                  {{ingredient.name}}
+                  a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") + 
+              
 

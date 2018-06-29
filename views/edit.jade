@@ -16,8 +16,8 @@ block content
     div.row
       div.col-md-3 
         b Name
-      div.col-md-3 
-        b Filename
+      //- div.col-md-3 
+      //-  b Filename
       div.col-md-1
       div.col-md-5 
         b Ingredients
@@ -25,8 +25,8 @@ block content
       form(ng-submit="editDrink(drink)")
         div.col-md-3 
           input(value="{{drink.name}}", ng-model="drink.name")
-        div.col-md-3
-          input(value="{{drink.image}}", ng-model="drink.image")
+        //- div.col-md-3
+        //-   input(value="{{drink.image}}", ng-model="drink.image")
         div.col-md-3
           a(href="/editdrink/{{drink._id}}") edit
         //- div.col-md-1.text-right 

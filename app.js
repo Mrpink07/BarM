@@ -27,7 +27,10 @@ var Pump = db.model('pumps', PumpSchema);
 
 var robot = require('./public/javascripts/robot/backend.js');
 
+var busboy = require('connect-busboy'); //middleware for form/file upload
+
 var app = express();
+app.use(busboy());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

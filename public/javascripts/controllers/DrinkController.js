@@ -234,18 +234,20 @@ function DrinkController($scope, $http) {
   };
   
   // Handle uploaded images
-  $scope.uploadFile = function(files) {
-      console.log(files);
+  $scope.uploadFile = function(files, drink) {
       var fd = new FormData();
       //Take the first selected file
       fd.append("file", files[0]);
+      
+      console.log(fd);
+      console.log(drink);
 
       $http.post('/uploadimage.json', fd, {
           withCredentials: true,
           headers: {'Content-Type': undefined },
           transformRequest: angular.identity
       }).success( function() {
-        console.log(fd);
+        //console.log(fd);
       })
       .error( function(err) {
         console.log(err)
