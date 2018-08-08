@@ -3,7 +3,7 @@
 exports.form = function (Ing) {
   return function (req, res) {
     Ing.find({}, function (err, ings) {
-      res.render('adding', {
+      res.render('addin', {
         title: 'Bar Mixvah: Add Ingredient',
         ings: ings
       });

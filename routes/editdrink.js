@@ -1,15 +1,18 @@
 var mongoose = require('mongoose');
 
 /* GET edit page */
-exports.show = function (Drink, query, res) {
+exports.show = function (Drink, Ing, query, res) {
   console.log(query);
   // Set the object ID to use with Mongo
   var objectId = mongoose.Types.ObjectId(query);
   console.log(objectId);
   Drink.find({ _id: objectId }, function (err, drinks) {
-    res.render('editdrink', { 
+    Ing.find({}, function (err, ings) {
+      res.render('editdrink', { 
       title: "Bar Mixvah: Edit Drink",
       drink: drinks,
+      ings: ings
+      });
     });
   });
 };

@@ -2,7 +2,7 @@
 exports.show = function (Ing) {
   return function (req, res) {
     Ing.find({}, function (err, ings) {
-      res.render('editin', { 
+      res.render('editin', {
         title: "Bar Mixvah: Edit Ingredients" ,
         ings: ings,
       });
@@ -12,10 +12,12 @@ exports.show = function (Ing) {
 
 exports.updateIng = function (Ing) {
   return function (req, res) {
-    Ing.findOneAndUpdate({ _id: req.body._id }, 
+    Ing.findOneAndUpdate({ _id: req.body._id },
       {
-        name: req.body.name
-      }, 
+        name: req.body.name,
+        quantityMl: req.body.quantityMl,
+        msPerMl: req.body.msPerMl
+      },
       function (err, ing) {
         if (ing) {
           console.log("Update Ingridients");
