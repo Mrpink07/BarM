@@ -345,6 +345,7 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
 
   // Now go through the delays and set a ms value for those
   for (var i in ingredients) {
+    if (i > 0) console.log("Prev ing: " + ingredients[i].amount);
     ingredients[i].delay = (Number(ingredients[i].delay) / 100) * $scope.pumpTime;
     console.log("Delay for " + ingredients[i].name + ": " + ingredients[i].delay + " ms");
     if (ingredients[i].delay > largestDelay) largestDelay = ingredients[i].delay; // Set the largest delay

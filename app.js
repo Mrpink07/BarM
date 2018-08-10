@@ -33,7 +33,10 @@ var Ing = db.model('ings', IngredientsSchema);
 
 var robot = require('./public/javascripts/robot/backend.js');
 
+var busboy = require('connect-busboy'); //middleware for form/file upload
+
 var app = express();
+app.use(busboy());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,6 +65,7 @@ app.post('/pump.json', add.addPump(Pump));
 app.post('/updatedrink.json', edit.updateDrink(Drink));
 app.post('/ing.json', addin.addIng(Ing));
 app.post('/updateing.json', editin.updateIng(Ing));
+app.post('/uploadimage.json', editdrink.uploadImage(Drink));
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
