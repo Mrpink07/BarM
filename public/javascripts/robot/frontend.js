@@ -82,6 +82,15 @@ $(document).ready(function () {
               pourProgress.set(0);
               console.log("Drink has finished pouring");
               
+              // Update the ingredient quantities
+              for (i in $scope.newIngs) {
+                $.post('/updateing.json', $scope.newIngs[i]).success(function (data) {
+                    console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+                    console.log(data);
+                });
+              }
+
+              
               // Go through all of the ingredients that have just been used
               var ingredients = $scope.selectedDrink.ingredients
               for (var i in ingredients) {
@@ -132,7 +141,7 @@ $(document).ready(function () {
     }, 200);
 
     // Start dispensing drink
-    makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkSize));
+    makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkSize), $scope.ings);
   });
   
   // $('.drinkName').mouseover(function () {
@@ -257,12 +266,14 @@ function animateBackground() {
   });
 }
 
-function makeDrink(drink, ingredients, pumps, drinkSize) {
+function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
   // Check that there are no duplicate pumps ingredients
   if ($scope.pumpDuplicates > 0) {
     alert("Pump values must be unique");
     return;
   }
+  
+  console.log(ings);
   
   // Reset the pump time
   $scope.pumpTime = 0;
@@ -281,6 +292,19 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       // Convert the percentage values to ml based on the drink size
       ingredients[i].amount = drinkSize * Number(ingredients[i].amount);
       console.log(ingredients[i].name + ": " + ingredients[i].amount + " ml");
+      
+      // Get the msPerMl value from the ings array
+      for (var x in ings) {
+          if (ings[x].name == ingredients[i].name) {
+            msPerMl = ings[x].msPerMl;
+            ings[x].quantityMl = parseInt(ings[x].quantityMl - ingredients[i].amount);
+            console.log(ingredients[i].name + ' new qty ' + parseInt(ings[x].quantityMl - ingredients[i].amount) + 'ml');
+            $.post('/updateing.json', ings[x]).success(function (data) {
+                console.log("Successfully updated ingredient quantity for " + ings[x].name);
+                console.log(data);
+            });
+          }
+      }
 
       // Convert the amount into milliseconds
       ingredients[i].amount = ingredients[i].amount * msPerMl;
@@ -303,6 +327,10 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
     }
   } else if (drink.measurement == "ml") {
   // If the measurement is ml
+      
+    // Capture updated ingredient info
+    $scope.newIngs = [];
+
     for (var i in ingredients) {
       // Set the amount size based on the selected drink size
       switch (drinkSize) {
@@ -320,6 +348,16 @@ function makeDrink(drink, ingredients, pumps, drinkSize) {
       // Write the number of ml to the console
       console.log(ingredients[i].name + ": " + ingredients[i][amountSize] + " ml");            
 
+      // Get the msPerMl value from the ings array
+      for (var x in ings) {
+          if (ings[x].name == ingredients[i].name) {
+            msPerMl = ings[x].msPerMl;
+            ings[x].quantityMl = parseInt(ings[x].quantityMl - ingredients[i][amountSize]);
+            console.log(ingredients[i].name + ' new qty ' + parseInt(ings[x].quantityMl - ingredients[i][amountSize]) + 'ml');
+            $scope.newIngs.push(ings[x]);
+          }
+      }
+      
       // Get the amount value (ml) and multiply it to get the number of ms the pump should run for that ingredient
       ingredients[i].amount = Number(ingredients[i][amountSize]) * msPerMl;
       console.log(ingredients[i].name + ": " + ingredients[i].amount + " ms");

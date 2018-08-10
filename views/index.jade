@@ -25,7 +25,7 @@ block head
 
 
 block content
-  div(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); setIngs( #{JSON.stringify(ings)} ); writeNumDuplicates()")
+  div(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)}, #{JSON.stringify(ings)} ); setPumps( #{JSON.stringify(pumps)} ); setIngs( #{JSON.stringify(ings)} ); writeNumDuplicates()")
     nav.navbar.navbar-inverse.navbar-static-top.navbar__no-margin-bottom
       div.container-fluid
         div.navbar-header
@@ -98,10 +98,15 @@ block content
             div.row
               div.col-md-10.col-md-push-1
                 div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)")
+                  div.outOfIngs(ng-if="drink.noIngs") !!!
                   div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
                     ul
+                      {{ noIngs = 0; "" }}
                       li.ingredientText(ng-repeat="ingredient in drink.ingredients")
                         | {{ingredient.name}}
+                        | {{getIngQuantity(ingredient.name, ings)}}
+                        span(ng-if="getIngQuantity(ingredient.name, ings) < (getIngQuantityOrig(ingredient.name, ings) * 0.1)") !
+                        
                   div.drinkImage(class="{{selectedDrink}}", style="opacity: 1.0; background-image: url('/images/drinks/{{drink.image || \'no_image.jpg\'}}')")
                     div.drinkName
                       | {{drink.name}} {{drink.measurement}}
@@ -122,7 +127,7 @@ block content
           div#mixDrink
             div.row
               div.col-md-12
-                div#make(ng-class="{'btn__make-drink': true, 'noselection':!selectedDrink.name}")
+                div#make(ng-class="{'btn__make-drink': true, 'noselection':!selectedDrink.name, 'noselection':selectedDrink.noIngs}")
                   div.glass-icon-progressbar.ldBar#pourProgress(data-type="fill", data-fill-background="#000", data-img="/images/noun_790897_cc.svg", data-fill-background-extrude="-1", data-value="0", data-fill-dir="btt")
 
 
