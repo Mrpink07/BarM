@@ -218,4 +218,40 @@ function DrinkController($scope, $http) {
       console.log(data);
     });
   };
+  
+  // Button to increase the ingredient delay
+  $scope.increaseDelay = function (ingredient) {
+      console.log(ingredient);
+      ingredient.delay += 10;
+  };
+
+  // Button to decrease the ingredient delay
+  $scope.decreaseDelay = function (ingredient) {
+      console.log(ingredient);
+      ingredient.delay -= 10;
+      // Don't go below 0 though
+      if (ingredient.delay < 0) ingredient.delay = 0;
+  };
+  
+  // Handle uploaded images
+  $scope.uploadFile = function(files, drink) {
+      var fd = new FormData();
+      //Take the first selected file
+      fd.append("file", files[0]);
+      
+      console.log(fd);
+      console.log(drink);
+
+      $http.post('/uploadimage.json', fd, {
+          withCredentials: true,
+          headers: {'Content-Type': undefined },
+          transformRequest: angular.identity
+      }).success( function() {
+        //console.log(fd);
+      })
+      .error( function(err) {
+        console.log(err)
+      });
+
+  };  
 }
