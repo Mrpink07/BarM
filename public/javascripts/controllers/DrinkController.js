@@ -9,6 +9,13 @@ function DrinkController($scope, $http) {
     ]
   };
 
+  $scope.ings = [];
+  $scope.newIng = {
+    name: '',
+    quantityMl: '',
+    msPerMl: ''
+  };
+
   $scope.pumps = {
     label: "pumps",
     ingredients: [
@@ -28,17 +35,33 @@ function DrinkController($scope, $http) {
 
   $scope.pumpDuplicates = 0;
 
-  $scope.ingredientsList = [
-    'Vodka', 'Rum', 'Whiskey', 'Tequila', 'Gin', 'Sake', 'Soju',
-    'Orange Juice', 'Apple Juice', 'Cranberry Juice', 'Pineapple Juice', 'Mango Juice', 'Grapefruit Juice', 'Lime Juice',
-    'Coke', 'Sprite', 'Ginger Ale', 'Root Beer', 'Dr. Pepper',
-    'Blue Liqueur', 'Sweet & Sour', 'Triple Sec', 'Kaluha', 'Peach Schnapps', 'Midori Melon',
-    'Champagne', 'Vand', 'Granene', 'blue cuck', 'Vermouth', 'Milk', 'Cuba', 'Tonic', 'Hyldeblomst', 'Tranebaer', 'Dansk Vand', 'AebleJuice',
-'Danskvand', 'Solbaer', 'Danskvand med citrus','citron', 'hyldebaetr', 'ingefaer', 'Multi Frugt' , 'Ribs', 'Jordbaer', 'Granataeble',
-  ];
+//   $scope.ingredientsList = [
+//     'Vodka', 'Rum', 'Whiskey', 'Tequila', 'Gin', 'Sake', 'Soju',
+//     'Orange Juice', 'Apple Juice', 'Cranberry Juice', 'Pineapple Juice', 'Mango Juice', 'Grapefruit Juice', 'Lime Juice',
+//     'Coke', 'Sprite', 'Ginger Ale', 'Root Beer', 'Dr. Pepper',
+//     'Blue Liqueur', 'Sweet & Sour', 'Triple Sec', 'Kaluha', 'Peach Schnapps', 'Midori Melon',
+//     'Champagne', 'Vand', 'Granene', 'blue cuck', 'Vermouth', 'Milk', 'Cuba', 'Tonic', 'Hyldeblomst', 'Tranebaer', 'Dansk Vand', 'AebleJuice',
+// 'Danskvand', 'Solbaer', 'Danskvand med citrus','citron', 'hyldebaetr', 'ingefaer', 'Multi Frugt' , 'Ribs', 'Jordbaer', 'Granataeble',
+//   ];
+
+ 
+//  $scope.ingredientsList = ings.name;
+  console.log($scope.ingredientsList);
 
   $scope.setDrinks = function (drinks) {
     $scope.drinks = drinks;
+  };
+
+  $scope.setIngs = function (ings) {
+    $scope.ings = ings;
+    
+    // Make a list of the ingredients
+    $scope.ingredientsList = [];
+    for (var i = 0; i < ings.length; i++) {
+        $scope.ingredientsList.push(ings[i].name);
+    }
+    
+    console.log($scope.ingredientsList);
   };
 
   $scope.initializePumps = function () {
@@ -103,11 +126,11 @@ function DrinkController($scope, $http) {
 
     this.selectedDrink = 'selectedDrink';
     $scope.lastSelected = this;
-    
+
     // Check if any of the size buttons need to be disabled
     $scope.checkSizesAvailable(drink);
   };
-  
+
   // Check which sizes are available from the drink's settings, and disable any buttons that aren't available
   $scope.checkSizesAvailable = function (drink) {
       console.log(drink);
@@ -214,6 +237,32 @@ function DrinkController($scope, $http) {
   $scope.editDrink = function (drink) {
     console.log(drink);
     $http.post('/updatedrink.json', drink).success(function (data) {
+      console.log("Success");
+      console.log(data);
+    });
+  };
+
+  // Add a new ingredient into the database
+  $scope.addNewIng = function () {
+    $http.post('/ing.json', $scope.newIng).success(function (data) {
+      console.log(data.ing);
+      console.log($scope);
+      if (data.ing) {
+        $scope.ings.push(data.ing);
+        $scope.newIng = {
+          name: '',
+          quantityMl: '',
+          msPerMl: ''
+        };
+      } else {
+        alert(JSON.stringify(data));
+      }
+    });
+  };
+
+  $scope.editIng = function (ing) {
+    console.log(ing);
+    $http.post('/updateing.json', ing).success(function (data) {
       console.log("Success");
       console.log(data);
     });

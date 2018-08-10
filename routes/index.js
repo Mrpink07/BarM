@@ -1,12 +1,15 @@
 /* GET home page. */
-exports.index = function (Drink, Pump) {
+exports.index = function (Drink, Pump, Ing) {
   return function (req, res) {
     Drink.find({}, function (err, drinks) {
       Pump.find({}, function (err, pumps) {
-        res.render('index', {
-          title: "BarMachina" ,
-          drinks: drinks,
-          pumps: pumps
+        Ing.find({}, function (err, ings) {
+          res.render('index', {
+            title: "BarMachina" ,
+            drinks: drinks,
+            pumps: pumps,
+            ings: ings
+          });
         });
       });
     });

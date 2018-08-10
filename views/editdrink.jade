@@ -10,12 +10,18 @@ block head
   script(type='text/javascript', src='/javascripts/robot/frontend.js')
 
 block content
-  div.container-fluid#drinkScope(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} )")
+  div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} ); setIngs(#{JSON.stringify(ings)})")
+    div.row
+      div.col-md-2
+      div.col-md-8
+        h1.title Edit Drinks
+
     //- div.row
     //-   div.col-md-12
     //-     form(name="image-upload", id="image-upload-form", action="/uploadimage.json", method="post", enctype="multipart/form-data")
     //-       input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
     //-       input(type="button", onclick="$('#image-upload-form').submit()")
+    
     div.row
       div.col-md-3 
         b Name

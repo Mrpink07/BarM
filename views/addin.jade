@@ -9,11 +9,20 @@ block content
   div#addScope.row(ng-controller="DrinkController", ng-init="setIngs(#{JSON.stringify(ings)})")
     div.col-md-2
     div.col-md-8
-      h1.title Add Ingrediens
+      h1.title Add Ingredient
       br
       form(ng-submit="addNewIng()")
         div.row
           div.col-md-3 Name
           div.col-md-5
             input(ng-model="newIng.name", placeholder="Name")
-         button.btn Add Ingrediens
+        div.row
+          div.col-md-3 Quantity (ml)
+          div.col-md-5
+            input(ng-model="newIng.quantityMl", placeholder="Quantity")
+        div.row
+          div.col-md-3 Flow rate in ms per ml (i.e. how many ms does it take to pur 1 ml?)
+          div.col-md-5
+            input(ng-model="newIng.msPerMl", placeholder="ms per ml")
+
+         button.btn Add Ingredient

@@ -1,11 +1,14 @@
 /* GET add drink page. */
 // Show the add form
-exports.form = function (Drink) {
+exports.form = function (Drink, Ing) {
   return function (req, res) {
     Drink.find({}, function (err, drinks) {
-      res.render('add', {
-        title: 'Bar Mixvah: Add Drink',
-        drinks: drinks
+      Ing.find({}, function (err, ings) {
+        res.render('add', {
+            title: 'Bar Mixvah: Add Drink',
+            drinks: drinks,
+            ings: ings
+        });
       });
     });
   };
@@ -47,3 +50,18 @@ exports.addPump = function (Pump) {
     });
   };
 };;
+
+// Add an ingredient
+exports.addIng = function (Ing) {
+  return function (req, res) {
+    console.log(req.body);
+    var ing = new Ing(req.body);
+    ing.save(function (err, ing) {
+      if (err || !ing) {
+        res.json({ error: err });
+      } else {
+        res.json({ ing: ing });
+      }
+    });
+  };
+};

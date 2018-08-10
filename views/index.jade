@@ -25,7 +25,7 @@ block head
 
 
 block content
-  div(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); writeNumDuplicates()")
+  div(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} ); setPumps( #{JSON.stringify(pumps)} ); setIngs( #{JSON.stringify(ings)} ); writeNumDuplicates()")
     nav.navbar.navbar-inverse.navbar-static-top.navbar__no-margin-bottom
       div.container-fluid
         div.navbar-header

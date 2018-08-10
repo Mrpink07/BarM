@@ -13,8 +13,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 var add = require('./routes/add');
+var addin = require('./routes/addin');
 var edit = require('./routes/edit');
+var editin = require('./routes/editin');
 var editdrink = require('./routes/editdrink');
+var ingredients = require('./routes/ingredients');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -24,6 +27,9 @@ var Drink = db.model('drinks', DrinkSchema);
 
 var PumpSchema = require('./models/Pump.js').PumpSchema;
 var Pump = db.model('pumps', PumpSchema);
+
+var IngredientsSchema = require('./models/Ingredients.js').IngredientsSchema;
+var Ing = db.model('ings', IngredientsSchema);
 
 var robot = require('./public/javascripts/robot/backend.js');
 
@@ -43,11 +49,13 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', routes.index(Drink, Pump));
-app.get('/add', add.form(Drink));
+app.get('/', routes.index(Drink, Pump, Ing));
+app.get('/add', add.form(Drink, Ing));
 app.get('/edit', edit.show(Drink));
+app.get('/addin', addin.form(Ing));
+app.get('/editin', editin.show(Ing));
 app.get('/editdrink/:drinkId', function (req, res) {
-  editdrink.show(Drink, req.params.drinkId, res);
+  editdrink.show(Drink, Ing, req.params.drinkId, res);
 });
 //app.use('/users', users);
 
@@ -55,8 +63,9 @@ app.post('/updatepump.json', routes.updatePump(Pump));
 app.post('/drink.json', add.addDrink(Drink));
 app.post('/pump.json', add.addPump(Pump));
 app.post('/updatedrink.json', edit.updateDrink(Drink));
+app.post('/ing.json', addin.addIng(Ing));
+app.post('/updateing.json', editin.updateIng(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
-
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
