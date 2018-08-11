@@ -57,6 +57,8 @@ block content
               a(href="#", ng-click="pumpControlVisible = !pumpControlVisible") Pumper
             li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': pumpIngredientsListVisible}")
               a(href="#", ng-click="pumpIngredientsListVisible = !pumpIngredientsListVisible") Ingredienser
+            li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': drinkEditListVisible}")
+              a(href="#", ng-click="drinkEditListVisible = !drinkEditListVisible") Drinks
 
     div.panel.panel-inverse(ng-show="pumpControlVisible")
       div.panel-heading
@@ -71,6 +73,16 @@ block content
           div.pumpButton.singlePump(ng-repeat="pump in pumps.ingredients") {{$index}}
           div#allPumps.pumpButton.small All
 
+    div.panel.panel-inverse(ng-show="drinkEditListVisible")
+      div.panel-heading
+        button.close(type="button", ng-click="drinkEditListVisible = false")
+          span &times;
+        p
+          span(style="padding-right: 20px;")
+            a(href="/add") Add
+          span
+            a(href="/edit") Edit
+
     div#fullWidth
       div#drinkScope.container-fluid
         div#cover
@@ -82,6 +94,11 @@ block content
                 img(alt="BarMachina", src="/images/logo_kuba.png")
 
             div.col-md-10.col-md-push-1#pumpIngredientsList(ng-show="pumpIngredientsListVisible")
+              p
+                span(style="padding-right: 20px;")
+                  a(href="/addin") Add
+                span
+                  a(href="/editin") Edit
               div.pumpContainer(ng-repeat="pump in pumps.ingredients")
                 span(style="min-width:7em;display: inline-block;")
                   | Slot {{$index+1}}

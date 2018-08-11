@@ -47,7 +47,7 @@ block content
           b Ingredients
 
       //- Show ingredients for percent drinks
-      div.row(ng-show="drinks.measurement=='pc' || drinks.measurment==''")
+      div.row(ng-show="drinks.measurement=='pc' || drinks.measurement=='' || drinks.measurement==NULL")
           div.col-md-1 
           a(ng-click="addNewIngredientEdit()") +
           div.row(ng-repeat="ingredient in drinks.ingredients")

@@ -284,7 +284,7 @@ function DrinkController($scope, $http) {
   // Button to increase the ingredient delay
   $scope.increaseDelay = function (ingredient) {
       console.log(ingredient);
-      ingredient.delay += 10;
+      ingredient.delay = parseInt(ingredient.delay) + 10;
   };
 
   // Button to decrease the ingredient delay

@@ -126,6 +126,9 @@ $(document).ready(function () {
                 // Reset the delay
                 ingredients[i].delay = ingredients[i].delayOrig; 
               }
+              
+              // If we've run out of an ingredient then reload the page
+              if ($scope.ingWarning) location.reload();
           }});
     }, 200);
 
@@ -272,9 +275,7 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
     alert("Pump values must be unique");
     return;
   }
-  
-  console.log(ings);
-  
+    
   // Reset the pump time
   $scope.pumpTime = 0;
 
@@ -288,6 +289,10 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
   if (drink.measurement == "pc" || !drink.measurement) {
     // Go through all of the ingredients
     console.log("Measuring using %");
+    
+    // Capture updated ingredient info
+    $scope.newIngs = [];
+    
     for (var i in ingredients) {
       // Convert the percentage values to ml based on the drink size
       ingredients[i].amount = drinkSize * Number(ingredients[i].amount);
@@ -297,12 +302,19 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
       for (var x in ings) {
           if (ings[x].name == ingredients[i].name) {
             msPerMl = ings[x].msPerMl;
+            
+            // Check there is enough ingredient for this size of drink
+            if (ingredients[i].amount >= ings[x].quantityMl) {
+                alert("There aren't enough ingredients to make that drink. Please choose a smaller size.\nDer er ikke nok ingredienser til at drikke. Vælg venligst en mindre størrelse.");
+                return false;
+            }
+
             ings[x].quantityMl = parseInt(ings[x].quantityMl - ingredients[i].amount);
             console.log(ingredients[i].name + ' new qty ' + parseInt(ings[x].quantityMl - ingredients[i].amount) + 'ml');
-            $.post('/updateing.json', ings[x]).success(function (data) {
-                console.log("Successfully updated ingredient quantity for " + ings[x].name);
-                console.log(data);
-            });
+            $scope.newIngs.push(ings[x]);
+            
+            // Check if we're running out of the ingredient
+            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) $scope.ingWarning = true;
           }
       }
 
@@ -352,9 +364,19 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
       for (var x in ings) {
           if (ings[x].name == ingredients[i].name) {
             msPerMl = ings[x].msPerMl;
+
+            // Check there is enough ingredient for this size of drink
+            if (ingredients[i][amountSize] >= ings[x].quantityMl) {
+                alert("There aren't enough ingredients to make that drink. Please choose a smaller size.\nDer er ikke nok ingredienser til at drikke. Vælg venligst en mindre størrelse.");
+                return false;
+            }
+
             ings[x].quantityMl = parseInt(ings[x].quantityMl - ingredients[i][amountSize]);
             console.log(ingredients[i].name + ' new qty ' + parseInt(ings[x].quantityMl - ingredients[i][amountSize]) + 'ml');
             $scope.newIngs.push(ings[x]);
+            
+            // Check if we're running out of the ingredient
+            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) $scope.ingWarning = true;
           }
       }
       
