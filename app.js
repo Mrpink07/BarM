@@ -18,6 +18,7 @@ var edit = require('./routes/edit');
 var editin = require('./routes/editin');
 var editdrink = require('./routes/editdrink');
 var ingredients = require('./routes/ingredients');
+var email = require('./routes/email');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -67,6 +68,7 @@ app.post('/ing.json', addin.addIng(Ing));
 app.post('/updateing.json', editin.updateIng(Ing));
 app.post('/updateingmulti.json', editin.updateIngMulti(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
+app.post('/email.json', email.email());
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

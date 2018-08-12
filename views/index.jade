@@ -117,8 +117,7 @@ block content
                 div.drinkContainer(ng-repeat="drink in drinks | orderBy: 'name' | filter: containsIngredients", ng-click="selectDrink(drink)")
                   div.outOfIngs(ng-if="drink.noIngs") !!!
                   div.hiddenIngredientFloat(class="hiddenIngredients {{selectedDrink}}")
-                    ul
-                      {{ noIngs = 0; "" }}
+                    ul {{ noIngs = 0; "" }}
                       li.ingredientText(ng-repeat="ingredient in drink.ingredients")
                         | {{ingredient.name}}
                         | {{getIngQuantity(ingredient.name, ings)}}

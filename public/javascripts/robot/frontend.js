@@ -127,8 +127,14 @@ $(document).ready(function () {
                 ingredients[i].delay = ingredients[i].delayOrig; 
               }
               
-              // If we've run out of an ingredient then reload the page
-              if ($scope.ingWarning) location.reload();
+              if ($scope.ingWarning) {
+                  // If we've run out of an ingredient then reload the page
+                  $.post('/email.json', { name: $scope.ingWarningName }).success(function (data) {
+                      console.log("Warning email sent for " + $scope.ingWarningName);
+                      console.log(data);
+                      location.reload();
+                  });
+              }
           }});
     }, 200);
 
@@ -314,7 +320,10 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
             $scope.newIngs.push(ings[x]);
             
             // Check if we're running out of the ingredient
-            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) $scope.ingWarning = true;
+            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) {
+              $scope.ingWarning = true;
+              $scope.ingWarningName = ings[x].name;
+            }
           }
       }
 
@@ -376,7 +385,10 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
             $scope.newIngs.push(ings[x]);
             
             // Check if we're running out of the ingredient
-            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) $scope.ingWarning = true;
+            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) {
+              $scope.ingWarning = true;
+              $scope.ingWarningName = ings[x].name;
+            }
           }
       }
       
