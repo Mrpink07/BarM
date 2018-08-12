@@ -48,8 +48,19 @@ function DrinkController($scope, $http) {
 //  $scope.ingredientsList = ings.name;
   console.log($scope.ingredientsList);
 
-  $scope.setDrinks = function (drinks) {
+  $scope.setDrinks = function (drinks, ings) {
     $scope.drinks = drinks;
+    
+    // Now go through all of the drinks and check we have the ingredients
+    for(i in $scope.drinks) {
+      for (j in $scope.drinks[i].ingredients) {
+        for (x in ings) {
+          if (ings[x].name == $scope.drinks[i].ingredients[j].name) {
+            if (ings[x].quantityMl < (ings[x].quantityOrig * 0.1)) $scope.drinks[i].noIngs = true;
+          }
+        }
+      }
+    }
   };
 
   $scope.setIngs = function (ings) {
@@ -261,6 +272,8 @@ function DrinkController($scope, $http) {
   };
 
   $scope.editIng = function (ing) {
+    // Update the quantityOrig value
+    ing.quantityOrig = ing.quantityMl;
     console.log(ing);
     $http.post('/updateing.json', ing).success(function (data) {
       console.log("Success");
@@ -271,7 +284,7 @@ function DrinkController($scope, $http) {
   // Button to increase the ingredient delay
   $scope.increaseDelay = function (ingredient) {
       console.log(ingredient);
-      ingredient.delay += 10;
+      ingredient.delay = parseInt(ingredient.delay) + 10;
   };
 
   // Button to decrease the ingredient delay
@@ -302,5 +315,21 @@ function DrinkController($scope, $http) {
         console.log(err)
       });
 
-  };  
+  };
+  
+  // Return how much of an ingredient is left
+  $scope.getIngQuantity = function(name, ings) {
+      for (i in ings) {
+        if (ings[i].name == name) return ings[i].quantityMl;
+      }
+  };
+
+    
+  // Return how much of an ingredient there was originally
+  $scope.getIngQuantityOrig = function(name, ings) {
+      for (i in ings) {
+        if (ings[i].name == name) return ings[i].quantityOrig;
+      }
+  };
+
 }

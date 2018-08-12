@@ -16,6 +16,7 @@ exports.updateIng = function (Ing) {
       {
         name: req.body.name,
         quantityMl: req.body.quantityMl,
+        quantityOrig: req.body.quantityOrig,
         msPerMl: req.body.msPerMl
       },
       function (err, ing) {
@@ -25,4 +26,24 @@ exports.updateIng = function (Ing) {
         }
     });
   };
+};
+
+exports.updateIngMulti = function (Ing) {
+     return function (req, res) {
+    console.log("updateIngMulti");
+    console.log(req);
+//         Ing.findOneAndUpdate({ _id: req.body._id },
+//         {
+//             name: req.body.name,
+//             quantityMl: req.body.quantityMl,
+//             quantityOrig: req.body.quantityOrig,
+//             msPerMl: req.body.msPerMl
+//         },
+//         function (err, ing) {
+//             if (ing) {
+//             console.log("Update Ingridients");
+//             res.send(ing);
+//             }
+//         });
+     };
 };
