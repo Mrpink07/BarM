@@ -120,12 +120,11 @@ block content
                     ul {{ noIngs = 0; "" }}
                       li.ingredientText(ng-repeat="ingredient in drink.ingredients")
                         | {{ingredient.name}}
-                        | {{getIngQuantity(ingredient.name, ings)}}
                         span(ng-if="getIngQuantity(ingredient.name, ings) < (getIngQuantityOrig(ingredient.name, ings) * 0.1)") !
                         
                   div.drinkImage(class="{{selectedDrink}}", style="opacity: 1.0; background-image: url('/images/drinks/{{drink.image || \'no_image.jpg\'}}')")
                     div.drinkName
-                      | {{drink.name}} {{drink.measurement}}
+                      | {{drink.name}}
 
 
           div#selectSize
