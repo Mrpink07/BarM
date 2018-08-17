@@ -12,6 +12,7 @@ exports.show = function (Ing) {
 
 exports.updateIng = function (Ing) {
   return function (req, res) {
+    if (req.body.quantityOrig === undefined) req.body.quantityOrig = req.body.quantityMl;
     Ing.findOneAndUpdate({ _id: req.body._id },
       {
         name: req.body.name,
@@ -21,8 +22,11 @@ exports.updateIng = function (Ing) {
       },
       function (err, ing) {
         if (ing) {
-          console.log("Update Ingridients");
+          console.log("Update Ingridient " + ing.name);
           res.send(ing);
+        } else {
+            console.log("Error with ingredient " + req.body.name);
+            console.log(err);
         }
     });
   };

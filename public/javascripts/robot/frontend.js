@@ -423,8 +423,14 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
     if (ingredients[i].delay > largestDelay) largestDelay = ingredients[i].delay; // Set the largest delay
   }
   
+  // Next go through the ingredients again and now see what the biggest amount + delay value is
+  for (var i in ingredients) {
+      if (ingredients[i].amount + ingredients[i].delay > $scope.pumpTime) $scope.pumpTime = ingredients[i].amount + ingredients[i].delay;
+      console.log("Total pump time changed to " + $scope.pumpTime);
+  }
+  
   // Add the largest delay onto the total time
-  $scope.pumpTime = $scope.pumpTime + largestDelay;
+  //$scope.pumpTime = $scope.pumpTime + largestDelay;
 
 
 /*
