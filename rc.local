@@ -1,0 +1,70 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Do some logging
+exec 2> /var/log/rc.local.log
+exec 1>&2
+set -x
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+# Check the device hostname
+bash /home/pi/Documents/BarMachina/barm-unique-hostname/sbin/barm-unique-hostname
+
+# Run the mongod repair
+/usr/bin/mongod --repair
+
+service raspberry-wifi-conf start &
+service mongodb start &
+node /home/pi/Documents/BarMachina/barm-announcer/app.js &
+
+# Wait for Mongo to start before starting the app
+while [ `/usr/sbin/service mongodb status | echo $?` != "0" ]
+do
+  echo "Waiting for MongoDB..."
+  sleep 2
+done
+
+if [ `/usr/sbin/service mongodb status | echo $?` -eq "0" ]
+then
+  echo "Mongo is up and running"
+else
+  echo "There was a problem with Mongo"
+fi
+
+# Make sure the app starts correctly
+if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
+then
+ echo "app.js is already running"
+else
+  while [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -lt "3" ]
+  do
+    echo "Trying to start app.js"
+    sleep 10
+    node /home/pi/Documents/BarMachina/BarDevApp/app.js &
+  done
+fi
+
+if [ `/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l` -gt "2" ]
+then
+  echo "app.js started"
+else
+  echo "There was a problem starting app.js"
+fi
+
+exit 0
+
