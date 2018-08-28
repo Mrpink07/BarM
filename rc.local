@@ -47,11 +47,11 @@ else
 fi
 
 # Make sure the app starts correctly
-if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "1" ]
+if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
 then
  echo "app.js is already running"
 else
-  while [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -lt "2" ]
+  while [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -lt "3" ]
   do
     echo "Trying to start app.js"
     sleep 10
@@ -59,7 +59,7 @@ else
   done
 fi
 
-if [ `/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l` -gt "1" ]
+if [ `/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l` -gt "2" ]
 then
   echo "app.js started"
 else
