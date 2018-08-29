@@ -33,13 +33,13 @@ service mongodb start &
 node /home/pi/Documents/BarMachina/barm-announcer/app.js &
 
 # Wait for Mongo to start before starting the app
-while [ `/usr/sbin/service mongodb status | echo $?` != "0" ]
+while [  "`/bin/ps -ef | /bin/grep mongo | /usr/bin/wc -l`" -gt "2" ]
 do
   echo "Waiting for MongoDB..."
   sleep 2
 done
 
-if [ `/usr/sbin/service mongodb status | echo $?` -eq "0" ]
+if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
 then
   echo "Mongo is up and running"
 else
