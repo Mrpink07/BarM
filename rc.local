@@ -29,14 +29,20 @@ bash /home/pi/Documents/BarMachina/barm-unique-hostname/sbin/barm-unique-hostnam
 /usr/bin/mongod --repair
 
 service raspberry-wifi-conf start &
-service mongodb start &
+/usr/bin/mongod &
+#/usr/sbin/service mongodb start &
 node /home/pi/Documents/BarMachina/barm-announcer/app.js &
 
 # Wait for Mongo to start before starting the app
 while [  "`/bin/ps -ef | /bin/grep mongo | /usr/bin/wc -l`" -gt "2" ]
 do
   echo "Waiting for MongoDB..."
-  sleep 2
+
+# Run the mongod repair
+/usr/bin/mongod --repair
+/usr/bin/mongod &
+
+  sleep 10
 done
 
 if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
@@ -55,7 +61,7 @@ else
   do
     echo "Trying to start app.js"
     sleep 10
-    node /home/pi/Documents/BarMachina/BarDevApp/app.js &
+    node /home/pi/Documents/BarMachina16/BarM-master10G/BarM-master/app.js &
   done
 fi
 
@@ -65,6 +71,34 @@ then
 else
   echo "There was a problem starting app.js"
 fi
+
+# Make sure no errors are thrown
+sleep 40
+
+# Make sure the app starts correctly
+if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
+then
+ echo "app.js is already running"
+else
+  while [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -lt "3" ]
+  do
+    echo "Trying to start app.js"
+    sleep 10
+    node /home/pi/Documents/BarMachina16/BarM-master10G/BarM-master/app.js &
+  done
+fi
+
+if [ `/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l` -gt "2" ]
+then
+  echo "app.js started"
+else
+  echo "There was a problem starting app.js"
+fi
+
+# Check to make sure the app stays up
+echo "Starting barm-keep-running"
+/home/pi/Documents/BarMachina16/BarM-master10G/BarM-master/barm-keep-running &
+
 
 exit 0
 
