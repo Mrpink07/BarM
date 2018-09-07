@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#####
+# Author	Gavin Abson <gavin.abson@gmail.com>
+# Created	2018-09-07
+#####
+
+while [ "1" -eq "1" ]
+do
+  if [ -z "`/bin/netstat -nap | grep 3000`" ]
+  then
+    echo "Bar Machina app isn't running on port 3000"
+    node /home/pi/Documents/BarMachina16/BarM-master10G/BarM-master/app.js &
+    sleep 6
+    if [ -n "`/bin/netstat -nap | grep 3000`" ]
+    then
+      echo "Bar Machina app is up and running again"
+    fi
+  fi
+done
