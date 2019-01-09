@@ -4,7 +4,7 @@
 #* This is a script to periodically dump the content of MongoDB
 #*
 #* Author	Gavin Abson <gavin.abson@gmail.com>
-#* Created	2019-01-08
+#* Created	2019-01-09
 #* Modified	2019-01-09
 #***************************
 
@@ -12,17 +12,12 @@ DBNAME=barmixvah
 BACKUPDIR=/backups
 COLLECTION=drinks
 
-# Make sure the backup dir exists
-if [ ! -d "$BACKUPDIR" ]
-then
-  mkdir -p "$BACKUPDIR"
-fi
-
-# Check the database isn't empty
+# Check if the database is empty
 count=`mongo $DBNAME --eval "db.$COLLECTION.count()" | tail -n1`
 
-# Do the backup
-if [ "$count" != "0" ]
+# Do the restore if it is empty
+if [ "$count" == "0" ]
 then
-  mongodump -d $DBNAME -o $BACKUPDIR/mongobackup
+  echo "Database collection $DBNAME.$COLLECTION is empty. Restoring..."
+  mongorestore $BACKUPDIR/mongobackup
 fi
