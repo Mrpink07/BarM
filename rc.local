@@ -52,6 +52,9 @@ else
   echo "There was a problem with Mongo"
 fi
 
+# Check that the DB isn't empty
+/home/pi/Documents/BarMachina/BarDevApp/barm-check-db
+
 # Make sure the app starts correctly
 if [ "`/bin/ps -ef | /bin/grep app.js | /usr/bin/wc -l`" -gt "2" ]
 then

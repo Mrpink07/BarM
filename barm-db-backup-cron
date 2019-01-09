@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#***************************
+#* This is a script to periodically dump the content of MongoDB
+#*
+#* Author	Gavin Abson <gavin.abson@gmail.com>
+#* Created	2019-01-08
+#* Modified	2019-01-09
+#***************************
+
+DBNAME=barmixvah
+BACKUPDIR=/backups
+COLLECTION=drinks
+
+# Make sure the backup dir exists
+if [ ! -d "$BACKUPDIR" ]
+then
+  mkdir -p "$BACKUPDIR"
+fi
+
+# Check the database isn't empty
+count=`mongo $DBNAME --eval "db.$COLLECTION.count()" | tail -n1`
+
+# Do the backup
+if [ "$count" != "0" ]
+then
+  mongodump -d $DBNAME -o $BACKUPDIR/mongobackup
+fi
