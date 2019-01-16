@@ -27,6 +27,8 @@ block content
         b Name
       div.col-md-3 
         b Filename
+      div.col-md-3 
+        b Price
       div.col-md-1
     div.row.editRow
       div.col-md-3 
@@ -35,6 +37,8 @@ block content
         form(name="image-upload", id="image-upload-form", action="/uploadimage.json", method="post", enctype="multipart/form-data")
           input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
           button.btn(type="button", onclick="$('#image-upload-form').submit()") Upload Image
+      div.col-md-3 
+        input(value="{{drinks.price}}", ng-model="drinks.price")
 
     form(ng-submit="editDrink(drinks)")
       div.row
