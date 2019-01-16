@@ -167,6 +167,7 @@ function DrinkController($scope, $http) {
         $scope.newDrink = {
           name: '',
           image: '',
+          price: '',
           ingredients: [
             { name: '', amount: 0 }
           ]

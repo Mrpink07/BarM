@@ -25,6 +25,7 @@ exports.updateDrink = function (Drink) {
       {
         name: req.body.name,
         image: req.body.image,
+        price: req.body.price,
         ingredients: req.body.ingredients
       }, 
       function (err, drink) {
