@@ -82,13 +82,13 @@ $(document).ready(function () {
               pourProgress.set(0);
               console.log("Drink has finished pouring");
               
-              // Update the ingredient quantities
-              for (i in $scope.newIngs) {
-                $.post('/updateing.json', $scope.newIngs[i]).success(function (data) {
-                    console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
-                    console.log(data);
-                });
-              }
+//               // Update the ingredient quantities
+//               for (i in $scope.newIngs) {
+//                 $.post('/updateing.json', $scope.newIngs[i]).success(function (data) {
+//                     console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+//                     console.log(data);
+//                 });
+//               }
 
               
               // Go through all of the ingredients that have just been used
@@ -429,6 +429,14 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
       console.log("Total pump time changed to " + $scope.pumpTime);
   }
   
+  
+    // Update the ingredient quantities
+    for (i in $scope.newIngs) {
+        $.post('/updateing.json', $scope.newIngs[i]).success(function (data) {
+            console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+            console.log(data);
+        });
+    }
   // Add the largest delay onto the total time
   //$scope.pumpTime = $scope.pumpTime + largestDelay;
 

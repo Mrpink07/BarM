@@ -14,12 +14,14 @@ block content
       div.col-md-8
         h1.title Edit Ingredienser
     div.row
-      div.col-md-3 
+      div.col-md-2 
         b Name
-      div.col-md-3
+      div.col-md-2
         b Quantity (ml)
-      div.col-md-3
+      div.col-md-2
         b ms per ml
+      div.col-md-2
+        b Price per ml
     div.row.editRow(ng-repeat="ing in ings | orderBy: 'name'")
       form(ng-submit="editIng(ing)")
         div.col-md-2 
