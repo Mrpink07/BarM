@@ -437,6 +437,25 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
             console.log(data);
         });
     }
+    
+
+    // Set up the object for the drink history
+    var history = {};
+    history.name = $scope.selectedDrink.name;
+    history.image = $scope.selectedDrink.image;
+    history.measurement = $scope.selectedDrink.measurement;
+    history.price = $scope.selectedDrink.price;
+    history.ingredients = $scope.selectedDrink.ingredients;
+    history.drinkSize = $scope.drinkSize;
+    
+    console.log(history);
+
+    $.post('/adddrinkhistory.json', history).success(function (data) {
+        console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+        console.log(data);
+    });
+
+    
   // Add the largest delay onto the total time
   //$scope.pumpTime = $scope.pumpTime + largestDelay;
 
