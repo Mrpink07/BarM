@@ -19,6 +19,7 @@ var editin = require('./routes/editin');
 var editdrink = require('./routes/editdrink');
 var ingredients = require('./routes/ingredients');
 var email = require('./routes/email');
+var drinksHistory = require('./routes/drinkshistory');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -31,6 +32,9 @@ var Pump = db.model('pumps', PumpSchema);
 
 var IngredientsSchema = require('./models/Ingredients.js').IngredientsSchema;
 var Ing = db.model('ings', IngredientsSchema);
+
+var HistorySchema = require('./models/Drinkshistory.js').HistorySchema;
+var History = db.model('history', HistorySchema);
 
 var robot = require('./public/javascripts/robot/backend.js');
 
@@ -69,6 +73,7 @@ app.post('/updateing.json', editin.updateIng(Ing));
 app.post('/updateingmulti.json', editin.updateIngMulti(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
 app.post('/email.json', email.email());
+app.post('/adddrinkhistory.json', drinksHistory.add(History));
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
