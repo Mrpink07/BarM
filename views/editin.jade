@@ -22,11 +22,13 @@ block content
         b ms per ml
     div.row.editRow(ng-repeat="ing in ings | orderBy: 'name'")
       form(ng-submit="editIng(ing)")
-        div.col-md-3 
+        div.col-md-2 
           input(value="{{ing.name}}", ng-model="ing.name")
-        div.col-md-3
+        div.col-md-2
           input(value="{{ing.quantityMl}}", ng-model="ing.quantityMl")
-        div.col-md-3
+        div.col-md-2
           input(value="{{ing.msPerMl}}", ng-model="ing.msPerMl")
+        div.col-md-2
+          input(value="{{ing.pricePerMl}}", ng-model="ing.pricePerMl")
         div.col-md-1
           button.btn Save
