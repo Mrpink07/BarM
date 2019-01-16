@@ -18,7 +18,8 @@ exports.updateIng = function (Ing) {
         name: req.body.name,
         quantityMl: req.body.quantityMl,
         quantityOrig: req.body.quantityOrig,
-        msPerMl: req.body.msPerMl
+        msPerMl: req.body.msPerMl,
+        pricePerMl: req.body.pricePerMl
       },
       function (err, ing) {
         if (ing) {

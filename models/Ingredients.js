@@ -5,4 +5,5 @@ exports.IngredientsSchema = new Mongoose.Schema({
   quantityMl: { type: Number, required: true },
   quantityOrig: { type: Number, required: false },
   msPerMl: {type: Number, required: true },
+  pricePerMl: {type: Number, required: false},
 });

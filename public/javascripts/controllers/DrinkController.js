@@ -13,7 +13,8 @@ function DrinkController($scope, $http) {
   $scope.newIng = {
     name: '',
     quantityMl: '',
-    msPerMl: ''
+    msPerMl: '',
+    pricePerMl: ''
   };
 
   $scope.pumps = {
@@ -263,7 +264,8 @@ function DrinkController($scope, $http) {
         $scope.newIng = {
           name: '',
           quantityMl: '',
-          msPerMl: ''
+          msPerMl: '',
+          pricePerMl: ''
         };
       } else {
         alert(JSON.stringify(data));
