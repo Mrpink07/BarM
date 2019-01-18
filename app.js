@@ -20,6 +20,7 @@ var editdrink = require('./routes/editdrink');
 var ingredients = require('./routes/ingredients');
 var email = require('./routes/email');
 var drinksHistory = require('./routes/drinkshistory');
+var historypage = require('./routes/historypage');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -62,6 +63,7 @@ app.get('/editin', editin.show(Ing));
 app.get('/editdrink/:drinkId', function (req, res) {
   editdrink.show(Drink, Ing, req.params.drinkId, res);
 });
+app.get('/historypage', historypage.show(History));
 //app.use('/users', users);
 
 app.post('/updatepump.json', routes.updatePump(Pump));

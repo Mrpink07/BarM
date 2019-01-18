@@ -1,0 +1,78 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/libs/bootstrap-css/css/bootstrap.css')
+  link(rel='stylesheet', href='/stylesheets/overrides.css')
+  script(type='text/javascript', src='/socket.io/socket.io.js')
+  script(type='text/javascript', src='/javascripts/controllers/HistoryController.js')
+  script(type='text/javascript', src='/javascripts/robot/frontend.js')
+
+block content
+  div.container-fluid(ng-controller="HistoryController", ng-init="setHistories( #{JSON.stringify(histories)} )")
+    div.row
+      div.col-md-2
+      div.col-md-8
+        h1.title Drinks History
+    div.row
+      div.col-md-1
+        | From
+      div.col-md-5
+        div(style="display: none")
+          {{fromDate.day="01"}}
+          {{fromDate.month=(todayDate | date: 'MM')}}
+          {{fromDate.year="2019"}}
+        input(ng-model="fromDate.day").col-md-2
+        select(ng-model="fromDate.month").col-md-2
+          option(value="01") January
+          option(value="02") February
+          option(value="03") March
+          option(value="04") April
+          option(value="05") May
+          option(value="06") June
+          option(value="07") July
+          option(value="08") August
+          option(value="09") September
+          option(value="10") October
+          option(value="11") November
+          option(value="12") December
+        input(ng-model="fromDate.year", value="{{todayDate | date:'yyyy'}}", placeholder="{{todayDate | date:'yyyy'}}").col-md-2
+      div.col-md-1
+        | To
+      div.col-md-5
+        div(style="display: none")
+          {{toDate.day=(tomorrow | date: 'dd')}}
+          {{toDate.month=(tomorrow | date: 'MM')}}
+          {{toDate.year=(tomorrow | date: 'yyyy')}}
+        input(ng-model="toDate.day", value="{{todayDate | date:'dd'}}", placeholder="{{todayDate | date:'dd'}}").col-md-2
+        select(ng-model="toDate.month").col-md-2
+          option(value="01") January
+          option(value="02") February
+          option(value="03") March
+          option(value="04") April
+          option(value="05") May
+          option(value="06") June
+          option(value="07") July
+          option(value="08") August
+          option(value="09") September
+          option(value="10") October
+          option(value="11") November
+          option(value="12") December
+        input(ng-model="toDate.year", value="{{todayDate | date:'yyyy'}}", placeholder="{{todayDate | date:'yyyy'}}").col-md-2
+    div.row
+      div.col-md-3 
+        b Date
+      div.col-md-3 
+        b Name
+      div.col-md-3 
+        b Size
+      div.col-md-3 
+        b Price
+    div.row.editRow(ng-repeat="history in histories | orderBy: 'date'" ng-if="(history.date > fromDate.year + '-' + fromDate.month + '-' + fromDate.day | date: 'yyyy-M-d') && (history.date < toDate.year + '-' + toDate.month + '-' + toDate.day | date: 'yyyy-M-d')")
+      div.col-md-3
+          | {{history.date | date: 'dd MMMM yyyy HH:mm:ss'}}
+      div.col-md-3 
+          | {{history.name}}
+      div.col-md-3 
+          | {{history.drinkSize}}
+      div.col-md-3 
+          | {{history.price}}
