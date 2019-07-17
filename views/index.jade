@@ -53,6 +53,9 @@ block content
                 img.navbar-stepthumbnail(src="/images/steps/step4_bg.png")
 
           ul.nav.navbar-nav.navbar-right
+            li.error-status-icon
+              a(href="#", ng-click="errorStatusInternetModal = !errorStatusInternetModal") 
+                img(src="/images/warning-sign.png", alt="Error")
             li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': pumpControlVisible}")
               a(href="#", ng-click="pumpControlVisible = !pumpControlVisible") Pumper
             li.navbar-nav__adjust-to-larger-navbar-brand(ng-class="{'active': pumpIngredientsListVisible}")
@@ -61,6 +64,15 @@ block content
               a(href="#", ng-click="drinkEditListVisible = !drinkEditListVisible") Drinks
             li.navbar-nav__adjust-to-larger-navbar-brand
               a(href="/historypage") History
+
+    div.panel.panel-inverse.error-modal(ng-show="errorStatusInternetModal")
+      div.panel-heading
+        button.close(type="button", ng-click="errorStatusInternetModal = false", style="color: #fff")
+          span &times;
+      div.panel-body
+        div
+          p Ingen Internetforbindelse
+          p No Internet connection
 
     div.panel.panel-inverse(ng-show="pumpControlVisible")
       div.panel-heading
@@ -147,10 +159,20 @@ block content
                 div#make(ng-class="{'btn__make-drink': true, 'noselection':!selectedDrink.name, 'noselection':selectedDrink.noIngs}")
                   div.glass-icon-progressbar.ldBar#pourProgress(data-type="fill", data-fill-background="#000", data-img="/images/noun_790897_cc.svg", data-fill-background-extrude="-1", data-value="0", data-fill-dir="btt")
 
-
         footer.row
           div.col-md-12
             img.navbar-logo-fit(alt="BarMachina", src="/images/logo_trans160x14px.png")
 
+
 block foot
-  
+  div.error-overlay
+    div.error-overlay-inner
+      div.warning-image
+        img.warning-sign(src="/images/warning-sign.png", alt="Warning")
+      div.warning-text
+        p Kan ikke oprette forbindelse til drikkevarer maskine
+        p Unable to connect to drinks machine
+
+
+  script(type='text/javascript', src='/javascripts/error-checking.js')
+

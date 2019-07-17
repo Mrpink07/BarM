@@ -28,7 +28,7 @@ bash /home/pi/Documents/BarMachina/barm-unique-hostname/sbin/barm-unique-hostnam
 # Run the mongod repair
 /usr/bin/mongod --repair
 
-service raspberry-wifi-conf start &
+#service raspberry-wifi-conf start &
 /usr/bin/mongod &
 #/usr/sbin/service mongodb start &
 node /home/pi/Documents/BarMachina/barm-announcer/app.js &

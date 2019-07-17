@@ -428,3 +428,62 @@ footer {
   color: #777777;
   text-align: center;
 }
+
+/* Error overlay */
+.error-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #000C;
+  width: 100vw;
+  height: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.error-overlay-inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  display: inline-block;
+  position: relative;
+  padding-top: 150px;
+}
+
+.warning-text {
+  float: left;
+  padding-top: 50px;
+}
+
+.warning-sign {
+  height: 250px;
+  width: 250px;
+}
+
+.warning-image {
+  float: left;
+  padding: 0px;
+  margin: 0px;
+}
+
+.error-status-icon img {
+  width: 50px;
+}
+
+.error-modal {
+  display: inline-block;
+  position: fixed;
+  top: 25vh;
+  margin-left: 25vw;
+  margin-right: auto;
+  z-index: 1000;
+  background-color: #000C;
+  width: 50vw;
+  height: auto;
+  text-align: center;
+  color: #FFF;
+  border: 1px solid #555;
+  padding: 30px;
+}
