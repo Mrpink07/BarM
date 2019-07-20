@@ -3,13 +3,18 @@ extends layout
 block head
   link(rel='stylesheet', href='/libs/bootstrap-css/css/bootstrap.css')
   link(rel='stylesheet', href='/stylesheets/overrides.css')
+  link(rel='stylesheet', href='/stylesheets/style.css')
   script(type='text/javascript', src='/javascripts/controllers/DrinkController.js')
 
 block content
   div#addScope.row(ng-controller="DrinkController", ng-init="setDrinks(#{JSON.stringify(drinks)}); setIngs(#{JSON.stringify(ings)});")
-    div.col-md-2
-    div.col-md-8
-      h1.title Add Drink
+    div.alert.alert-success.drink-success(style="display: none")
+      p Drink saved successfully
+    div.col-md-1
+      a(href="/")
+        img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;")
+    div.col-md-10
+      h1 Add Drink
       br
       form(ng-submit="addNewDrink()")
         div.row
@@ -43,7 +48,7 @@ block content
           div.row(ng-repeat="ingredient in newDrink.ingredients")
             div.row
               div.col-md-3
-              div.col-md-3
+              div.col-md-4
                 select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
                   option(value="") -- Choose --
               div.col-md-3
@@ -59,23 +64,23 @@ block content
         //- Ingredients inputs for ml based measurements
         div.row(ng-show="showMlIngredients")
           div.col-md-3 Ingredients
-          div.col-md-2
+          div.col-md-4
             a(ng-click="addNewIngredient()") +
-          div.col-md-1 Small
-          div.col-md-1 Medium
-          div.col-md-1 Large
+          div.col-md-1(style="padding-right: 80px;") Small
+          div.col-md-1 Med
+          div.col-md-2 Large
         div#ingredients.row(ng-show="showMlIngredients")
           div.row(ng-repeat="ingredient in newDrink.ingredients")
             div.row
               div.col-md-3
-              div.col-md-2
+              div.col-md-4
                 select.mixers(ng-model="ingredient.name", ng-options="i for i in ingredientsList")
                   option(value="") -- Choose --
               div.col-md-1
                 input.addForm.ingredient(ng-model="ingredient.amountSmall", placeholder='0')
               div.col-md-1
                 input.addForm.ingredient(ng-model="ingredient.amountMedium", placeholder='0')
-              div.col-md-1
+              div.col-md-2
                 input.addForm.ingredient(ng-model="ingredient.amountLarge", placeholder='0')
               div.col-md-1
                 a(ng-click="removeIngredient($index)") -
@@ -86,4 +91,4 @@ block content
                 input.addForm.ingredient(ng-model="ingredient.delay", value="0", type="range", min="0", max="100")
 
         //- Show the button if either of the measurement fields are visible
-        button.btn(ng-show="showPcIngredients || showMlIngredients") Add Drink
+        button.btn.btn-lg(ng-show="showPcIngredients || showMlIngredients") Add Drink

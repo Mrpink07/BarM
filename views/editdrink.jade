@@ -3,6 +3,7 @@ extends layout
 block head
   link(rel='stylesheet', href='/libs/bootstrap-css/css/bootstrap.css')
   link(rel='stylesheet', href='/stylesheets/overrides.css')
+  link(rel='stylesheet', href='/stylesheets/style.css')
   script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/controllers/DrinkController.js')
   //- script(type='text/javascript', src='/javascripts/controllers/draggableUI.js')
@@ -11,10 +12,14 @@ block head
 
 block content
   div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} ); setIngs(#{JSON.stringify(ings)})")
+    div.alert.alert-success.drink-success(style="display: none")
+      p Drink saved successfully
     div.row
       div.col-md-2
+        a(href="/edit")
+          img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;")
       div.col-md-8
-        h1.title Edit Drinks
+        h1 Edit Drinks
 
     //- div.row
     //-   div.col-md-12
@@ -22,21 +27,23 @@ block content
     //-       input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
     //-       input(type="button", onclick="$('#image-upload-form').submit()")
     
-    div.row
+    div.row.mb-1
       div.col-md-3 
         b Name
+      div.col-md-9 
+        input(value="{{drinks.name}}", ng-model="drinks.name")
+
+    div.row.mb-1
       div.col-md-3 
         b Filename
-      div.col-md-3 
-        b Price
-      div.col-md-1
-    div.row.editRow
-      div.col-md-3 
-        input(value="{{drinks.name}}", ng-model="drinks.name")
       div.col-md-3
         form(name="image-upload", id="image-upload-form", action="/uploadimage.json", method="post", enctype="multipart/form-data")
           input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
           button.btn(type="button", onclick="$('#image-upload-form').submit()") Upload Image
+
+    div.row.mb-1
+      div.col-md-3 
+        b Price
       div.col-md-3 
         input(value="{{drinks.price}}", ng-model="drinks.price")
 
@@ -44,14 +51,14 @@ block content
       div.row
         div.col-md-2
         div.col-md-10
-          h1.title Edit Drinks
+          //- h1.title Edit Drinks
 
       div.row
           div.col-md-12
           b Ingredients
 
       //- Show ingredients for percent drinks
-      div.row(ng-show="drinks.measurement=='pc' || drinks.measurement=='' || drinks.measurement==NULL")
+      div.row.mb-2(ng-show="drinks.measurement=='pc' || drinks.measurement=='' || drinks.measurement==NULL")
           div.col-md-1 
           a(ng-click="addNewIngredientEdit()") +
           div.row(ng-repeat="ingredient in drinks.ingredients")
@@ -65,9 +72,9 @@ block content
                   div.col-md-1 
                     a(ng-click="removeIngredientEdit($index)") -
           div.col-md-1
-          button.btn Save
+          //- button.btn Save
 
-          div.draggable-ui
+          div.draggable-ui(style="margin-top: 2rem; margin-left: 40px")
             div.container(ng-repeat="ingredient in drinks.ingredients")
               div.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 );", ng-show="$index == 0") {{ingredient.name}}
               div.draggable.editdrink-slider(style="width: calc({{ingredient.amount}}px * 500 ); margin-left: {{ingredient.delay}}px;", ng-show="$index > 0", onmouseup="setDelay(this);" data-delayid="{{ingredient._id}}")
@@ -77,7 +84,7 @@ block content
             
             
       //- Show ingredients for ml drinks
-      div.row(ng-show="drinks.measurement=='ml'")
+      div.row.mb-2(ng-show="drinks.measurement=='ml'")
           div.col-md-1
           a(ng-click="addNewIngredientEdit()") +
           div.col-md-12
@@ -96,7 +103,7 @@ block content
           div.col-md-12
           div.row(ng-repeat="ingredient in drinks.ingredients")
               div.container
-                  div.col-md-4
+                  div.col-md-5
                       select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
                   div.col-md-1
                       input.addForm.ingredient(value="{{ingredient.amountSmall}}", ng-model="ingredient.amountSmall", style="width: 100px;")
@@ -104,12 +111,12 @@ block content
                       input.addForm.ingredient(value="{{ingredient.amountMedium}}", ng-model="ingredient.amountMedium", style="width: 100px;")
                   div.col-md-1
                       input.addForm.ingredient(value="{{ingredient.amountLarge}}", ng-model="ingredient.amountLarge", style="width: 100px;")
-                  div.col-md-1
+                  div.col-md-2
                     input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
                   div.col-md-1 
                       a(ng-click="removeIngredientEdit($index)") -
           div.col-md-1
-          button.btn Save
+          //- button.btn Save
 
           div.draggable-ui
             div.container(ng-repeat="ingredient in drinks.ingredients")
@@ -119,4 +126,7 @@ block content
                   {{ingredient.name}}
                   a(ng-click="increaseDelay(ingredient)", style="font-size: xx-large; padding: 10px;") + 
               
-
+        div.row.mb-2
+          div.col-md-1
+          div.col-md-11
+            button.btn.btn-lg Save

@@ -342,7 +342,7 @@ img.navbar-stepthumbnail {
   color: #f0f0f0;
   margin: 2px;
   margin-right: 1em;
-  font-size: 1em;
+  font-size: 0.8em;
   padding-left: 1em;
   border: 5px solid #e5c759;
 }
@@ -472,6 +472,10 @@ footer {
   width: 50px;
 }
 
+.error-status-icon {
+  display: none !important;
+}
+
 .error-modal {
   display: inline-block;
   position: fixed;
@@ -486,4 +490,29 @@ footer {
   color: #FFF;
   border: 1px solid #555;
   padding: 30px;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
+.mb-3 {
+  margin-bottom: 3rem;
+}
+
+.mb-4 {
+  margin-bottom: 4rem;
+}
+
+.addForm.ingredient {
+  width: 80px !important;
+}
+
+.draggable-ui {
+  margin-left: 32px;
+  margin-top: 40px;
 }

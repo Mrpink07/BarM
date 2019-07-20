@@ -7,7 +7,11 @@ block head
 
 block content
   div#addScope.row(ng-controller="DrinkController", ng-init="setIngs(#{JSON.stringify(ings)})")
+    div.alert.alert-success.ing-success(style="display: none")
+      p Ingredient saved successfully
     div.col-md-2
+      a(href="/")
+        img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;")
     div.col-md-8
       h1.title Add Ingredient
       br
