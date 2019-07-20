@@ -11,6 +11,8 @@ block content
   div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drinks)} )")
     div.row
       div.col-md-2
+        a(href="/")
+          img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;") 
       div.col-md-8
         h1.title Edit Drinks
     div.row

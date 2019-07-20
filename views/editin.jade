@@ -3,18 +3,23 @@ extends layout
 block head
   link(rel='stylesheet', href='/libs/bootstrap-css/css/bootstrap.css')
   link(rel='stylesheet', href='/stylesheets/overrides.css')
+  link(rel='stylesheet', href='/stylesheets/style.css')
   script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/controllers/DrinkController.js')
   script(type='text/javascript', src='/javascripts/robot/frontend.js')
 
 block content
   div.container-fluid(ng-controller="DrinkController", ng-init="setIngs( #{JSON.stringify(ings)} )")
+    div.alert.alert-success.ing-success(style="display: none")
+      p Ingredient saved successfully
     div.row
       div.col-md-2
+        a(href="/")
+          img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;")
       div.col-md-8
-        h1.title Edit Ingredienser
+        h1 Edit Ingredienser
     div.row
-      div.col-md-2 
+      div.col-md-4 
         b Name
       div.col-md-2
         b Quantity (ml)
@@ -24,13 +29,13 @@ block content
         b Price per ml
     div.row.editRow(ng-repeat="ing in ings | orderBy: 'name'")
       form(ng-submit="editIng(ing)")
-        div.col-md-2 
+        div.col-md-4 
           input(value="{{ing.name}}", ng-model="ing.name")
         div.col-md-2
-          input(value="{{ing.quantityMl}}", ng-model="ing.quantityMl")
+          input.addForm.ingredient(value="{{ing.quantityMl}}", ng-model="ing.quantityMl")
         div.col-md-2
-          input(value="{{ing.msPerMl}}", ng-model="ing.msPerMl")
+          input.addForm.ingredient(value="{{ing.msPerMl}}", ng-model="ing.msPerMl")
         div.col-md-2
-          input(value="{{ing.pricePerMl}}", ng-model="ing.pricePerMl")
+          input.addForm.ingredient(value="{{ing.pricePerMl}}", ng-model="ing.pricePerMl")
         div.col-md-1
           button.btn Save

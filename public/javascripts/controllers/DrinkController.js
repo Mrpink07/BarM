@@ -162,6 +162,9 @@ function DrinkController($scope, $http) {
     $http.post('/drink.json', $scope.newDrink).success(function (data) {
       console.log(data.drink);
       console.log($scope);
+      console.log('Success - Add drink');
+      window.location.href = '#';
+      $('.drink-success').show();
       if (data.drink) {
         $scope.drinks.push(data.drink);
         $scope.newDrink = {
@@ -250,8 +253,10 @@ function DrinkController($scope, $http) {
   $scope.editDrink = function (drink) {
     console.log(drink);
     $http.post('/updatedrink.json', drink).success(function (data) {
-      console.log("Success");
+      console.log("Success - Drink Edit");
       console.log(data);
+      window.location.href = '#';
+      $('.drink-success').show();
     });
   };
 
@@ -260,6 +265,9 @@ function DrinkController($scope, $http) {
     $http.post('/ing.json', $scope.newIng).success(function (data) {
       console.log(data.ing);
       console.log($scope);
+      console.log('Success - Ing added');
+      window.location.href='#';
+      $('.ing-success').show();
       if (data.ing) {
         $scope.ings.push(data.ing);
         $scope.newIng = {
@@ -279,6 +287,8 @@ function DrinkController($scope, $http) {
     ing.quantityOrig = ing.quantityMl;
     console.log(ing);
     $http.post('/updateing.json', ing).success(function (data) {
+      window.location.href='#';
+      $('.ing-success').show();
       console.log("Success");
       console.log(data);
     });

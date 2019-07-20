@@ -12,8 +12,12 @@ block head
 
 block content
   div.container-fluid(ng-controller="DrinkController", ng-init="setDrinks( #{JSON.stringify(drink[0])} ); setIngs(#{JSON.stringify(ings)})")
+    div.alert.alert-success.drink-success(style="display: none")
+      p Drink saved successfully
     div.row
       div.col-md-2
+        a(href="/edit")
+          img(src="/images/Back_Arrow.svg", alt="Go back", style="height: 40px; width: 40px;")
       div.col-md-8
         h1 Edit Drinks
 
@@ -99,7 +103,7 @@ block content
           div.col-md-12
           div.row(ng-repeat="ingredient in drinks.ingredients")
               div.container
-                  div.col-md-4
+                  div.col-md-5
                       select.mixers(value="{{ingredient.name}}", ng-model="ingredient.name", ng-options="i for i in ingredientsList")
                   div.col-md-1
                       input.addForm.ingredient(value="{{ingredient.amountSmall}}", ng-model="ingredient.amountSmall", style="width: 100px;")
@@ -107,12 +111,12 @@ block content
                       input.addForm.ingredient(value="{{ingredient.amountMedium}}", ng-model="ingredient.amountMedium", style="width: 100px;")
                   div.col-md-1
                       input.addForm.ingredient(value="{{ingredient.amountLarge}}", ng-model="ingredient.amountLarge", style="width: 100px;")
-                  div.col-md-1
+                  div.col-md-2
                     input.addForm.ingredient(ng-model="ingredient.delay", value="{{ingredient.delay}}", style="width: 100px;", id="{{ingredient._id}}")
                   div.col-md-1 
                       a(ng-click="removeIngredientEdit($index)") -
           div.col-md-1
-          button.btn Save
+          //- button.btn Save
 
           div.draggable-ui
             div.container(ng-repeat="ingredient in drinks.ingredients")
