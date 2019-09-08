@@ -75,3 +75,43 @@ exports.uploadImage = function (Drink) {
         res.redirect('back');           //where to go next
     };
 };
+
+// Add the QR code - this is basically the same as the image upload but to a different folder
+exports.uploadQR = function (Drink) {
+    return function (req, res) {
+        var fstream;
+        req.pipe(req.busboy);
+        
+        req.busboy.on('file', function (fieldname, file, filename) {
+            console.log("Uploading: " + filename);
+            
+            // Set the local filename to use on the server
+            var localFile = fieldname;
+            localFile = localFile.replace('-image', '');
+            
+            // Get the file extension
+            var ext = filename.split('.').pop();
+
+            //Path where image will be uploaded
+            console.log(__dirname + '/../public/images/qr/' + localFile + '.' + ext);
+            fstream = fs.createWriteStream(__dirname + '/../public/images/qr/' + localFile + '.' + ext);
+            file.pipe(fstream);
+            fstream.on('close', function () {    
+                console.log("Upload Finished of " + localFile + '.' + ext);
+
+                Drink.findOneAndUpdate({ _id: localFile }, 
+                {
+                    qr: localFile + '.' + ext,
+                }, 
+                function (err, drink) {
+                    if (drink) {
+                    console.log("Update Drink");
+                    res.send(drink);
+                    }
+                });
+                
+            });
+        });
+        res.redirect('back');           //where to go next
+    };
+};

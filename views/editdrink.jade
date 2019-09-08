@@ -41,6 +41,21 @@ block content
           input(value="{{drinks.image}}", ng-model="drinks.image", type="file", name="{{drinks._id}}-image")
           button.btn(type="button", onclick="$('#image-upload-form').submit()") Upload Image
 
+    div.row.mb-1(style="background-color: #5c5c5c;padding: 40px 0px 40px 0px;")
+      div.col-md-3 
+        img(src="/images/mobilepay.png", alt="MobilePay")
+      div.col-md-8
+        b Step 1
+        p Use your MobilePay account to create a new QR code with the following details:
+        ul
+            li Description: {{drinks._id}}
+            li Price: {{drinks.price}}
+        b Step 2
+        p Save the generated QR and then upload using this form:
+        form(name="qr-upload", id="qr-upload-form", action="/uploadqr.json", method="post", enctype="multipart/form-data")
+          input(value="{{drinks.qr}}", ng-model="drinks.qr", type="file", name="{{drinks._id}}-qr")
+          button.btn(type="button", onclick="$('#qr-upload-form').submit()") Upload QR Code
+
     div.row.mb-1
       div.col-md-3 
         b Price

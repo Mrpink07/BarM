@@ -74,6 +74,7 @@ app.post('/ing.json', addin.addIng(Ing));
 app.post('/updateing.json', editin.updateIng(Ing));
 app.post('/updateingmulti.json', editin.updateIngMulti(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
+app.post('/uploadqr.json', editdrink.uploadQR(Drink));
 app.post('/email.json', email.email());
 app.post('/adddrinkhistory.json', drinksHistory.add(History));
 
