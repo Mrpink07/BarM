@@ -9,6 +9,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var qrcode = require('qrcode');
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -21,6 +22,7 @@ var ingredients = require('./routes/ingredients');
 var email = require('./routes/email');
 var drinksHistory = require('./routes/drinkshistory');
 var historypage = require('./routes/historypage');
+var qrcode = require('./routes/qrcode');
 
 var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'barmixvah');
@@ -74,9 +76,10 @@ app.post('/ing.json', addin.addIng(Ing));
 app.post('/updateing.json', editin.updateIng(Ing));
 app.post('/updateingmulti.json', editin.updateIngMulti(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
-app.post('/uploadqr.json', editdrink.uploadQR(Drink));
 app.post('/email.json', email.email());
 app.post('/adddrinkhistory.json', drinksHistory.add(History));
+app.post('/qrcode.json', qrcode.qrcode());
+app.get('/qrcode.json', qrcode.qrcode());
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
