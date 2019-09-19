@@ -435,7 +435,7 @@ footer {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 2000;
   background-color: #000C;
   width: 100vw;
   height: 100%;
@@ -482,7 +482,7 @@ footer {
   top: 25vh;
   margin-left: 25vw;
   margin-right: auto;
-  z-index: 1000;
+  z-index: 2000;
   background-color: #000C;
   width: 50vw;
   height: auto;
@@ -515,4 +515,44 @@ footer {
 .draggable-ui {
   margin-left: 32px;
   margin-top: 40px;
+}
+
+
+/* Payment overlay */
+.payment-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #000C;
+  width: 100vw;
+  height: 100%;
+  text-align: center;
+  color: #FFF;
+}
+
+.payment-overlay-inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  display: inline-block;
+  position: relative;
+  padding-top: 150px;
+}
+
+.payment-text {
+  float: left;
+  padding-top: 50px;
+}
+
+.payment-sign {
+  height: 250px;
+  width: 250px;
+}
+
+.payment-image {
+  float: left;
+  padding: 0px;
+  margin: 0px;
 }

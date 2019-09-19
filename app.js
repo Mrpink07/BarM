@@ -79,7 +79,6 @@ app.post('/uploadimage.json', editdrink.uploadImage(Drink));
 app.post('/email.json', email.email());
 app.post('/adddrinkhistory.json', drinksHistory.add(History));
 app.post('/qrcode.json', qrcode.qrcode());
-app.get('/qrcode.json', qrcode.qrcode());
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

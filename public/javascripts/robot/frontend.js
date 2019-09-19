@@ -34,6 +34,15 @@ $(document).ready(function () {
     }
   }
 */
+    // Function for creating UIDs
+    var UID = function () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return Math.random().toString(36).substr(2, 9);
+    };
+    
+
   // Front end drink making
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
@@ -51,6 +60,15 @@ $(document).ready(function () {
       return;
     }
 
+    // Get an ID for this drink
+    $scope.selectedDrink.drinkId = UID();
+console.log($scope.selectedDrink.price);
+    // Get the QR Code
+    $.post('/qrcode.json', { amount: $scope.selectedDrink.price, uid: $scope.selectedDrink.drinkId, test:'test' }).success(function (data) {
+        $('.payment-qr').attr('src', data);
+        $('.payment-overlay').show();
+    });
+    
     // Visual goodies
     console.log('Making Drink');
     $('#make').addClass('disabled');

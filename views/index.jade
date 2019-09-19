@@ -173,6 +173,16 @@ block foot
         p Kan ikke oprette forbindelse til drikkevarer maskine
         p Unable to connect to drinks machine
 
+  div.payment-overlay
+    div.payment-overlay-inner
+      div.mobilepay-image
+        img(src="/images/mobilepay.png", alt="MobilePay")
+      div.payment-text
+        p Scan QR-koden nedenfor ved hjælp af MobilePay-appen til at betale
+        p Please scan the QR code below using the MobilePay app to pay
+      div.payment-qr-container
+        img.payment-qr
+
 
   script(type='text/javascript', src='/javascripts/error-checking.js')
 
