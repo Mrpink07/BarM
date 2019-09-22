@@ -5,7 +5,14 @@ exports.qrcode = function() {
         QRCode.toDataURL('https://www.mobilepay.dk/erhverv/betalingslink/betalingslink-svar?phone=123456798&amount=' + req.body.amount + '&comment=' + req.body.uid + '&lock=1', function (err, url) {
             // Return a response
             res.send(url);
-        })
+        });
    
     };
 };
+
+exports.status = function() {
+    return function (req, res) {
+        console.log(req.body);
+        res.send(false);
+    }
+}
