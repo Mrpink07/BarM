@@ -77,8 +77,8 @@ app.post('/updateingmulti.json', editin.updateIngMulti(Ing));
 app.post('/uploadimage.json', editdrink.uploadImage(Drink));
 app.post('/email.json', email.email());
 app.post('/adddrinkhistory.json', drinksHistory.add(History));
-app.post('/qrcode.json', payments.qrcode());
-app.post('/paymentStatus.json', payments.status());
+app.post('/qrcode.json', payments.qrcode(History));
+app.post('/paymentStatus.json', payments.status(History));
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

@@ -62,13 +62,44 @@ $(document).ready(function () {
 
     // Get an ID for this drink
     $scope.selectedDrink.drinkId = UID();
-console.log($scope.selectedDrink.price);
+
+    // Set up the object for the drink history
+    var history = {};
+    history.name = $scope.selectedDrink.name;
+    history.image = $scope.selectedDrink.image;
+    history.measurement = $scope.selectedDrink.measurement;
+    history.price = $scope.selectedDrink.price;
+    history.ingredients = $scope.selectedDrink.ingredients;
+    history.drinkSize = $scope.drinkSize;
+    history.uid = $scope.selectedDrink.drinkId;
+    
     // Get the QR Code
-    $.post('/qrcode.json', { amount: $scope.selectedDrink.price, uid: $scope.selectedDrink.drinkId, test:'test' }).success(function (data) {
+    $.post('/qrcode.json', { amount: $scope.selectedDrink.price, uid: $scope.selectedDrink.drinkId, history: history }).success(function (data) {
         $('.payment-qr').attr('src', data);
         $('.payment-overlay').show();
+
+        // Check the payment status
+        checkStatus();
     });
-    
+  });
+  
+  // Check payment status on a loop
+  function checkStatus() {
+    // Check the payment status
+    $.post('/paymentStatus.json', { uid: $scope.selectedDrink.drinkId }).success(function (data) {
+        // If the result was false then check again in a few secs
+        console.log(data);
+        if (data === false) {
+            setTimeout(checkStatus(), 5000);
+        } else {
+            console.log("POUR!");
+            $('.payment-overlay').hide();
+            pourThatDrink();
+        }
+    });
+  }
+  
+  function pourThatDrink() {
     // Visual goodies
     console.log('Making Drink');
     $('#make').addClass('disabled');
@@ -169,7 +200,7 @@ console.log($scope.selectedDrink.price);
 
     // Start dispensing drink
     makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkSize), $scope.ings);
-  });
+  }
   
   // $('.drinkName').mouseover(function () {
   //   $(this).parent().parent().children('.hiddenIngredientFloat').show();
@@ -457,21 +488,21 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
     }
     
 
-    // Set up the object for the drink history
-    var history = {};
-    history.name = $scope.selectedDrink.name;
-    history.image = $scope.selectedDrink.image;
-    history.measurement = $scope.selectedDrink.measurement;
-    history.price = $scope.selectedDrink.price;
-    history.ingredients = $scope.selectedDrink.ingredients;
-    history.drinkSize = $scope.drinkSize;
+//     // Set up the object for the drink history
+//     var history = {};
+//     history.name = $scope.selectedDrink.name;
+//     history.image = $scope.selectedDrink.image;
+//     history.measurement = $scope.selectedDrink.measurement;
+//     history.price = $scope.selectedDrink.price;
+//     history.ingredients = $scope.selectedDrink.ingredients;
+//     history.drinkSize = $scope.drinkSize;
     
-    console.log(history);
-
-    $.post('/adddrinkhistory.json', history).success(function (data) {
-        console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
-        console.log(data);
-    });
+//     console.log(history);
+// 
+//     $.post('/adddrinkhistory.json', history).success(function (data) {
+//         console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+//         console.log(data);
+//     });
 
     
   // Add the largest delay onto the total time
