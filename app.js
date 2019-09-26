@@ -9,6 +9,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var MailListener = require("mail-listener2");
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -145,3 +146,49 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+
+
+// Mail listener
+// This is the function to listen to our mailbox for incoming drink payments, and update the database when we get one
+var mailListener = new MailListener({
+  username: "barmachinatest@netlocomotion.com",
+  password: "BarMachinaTest123!",
+  host: "mail.netlocomotion.com",
+  port: 993, // imap port
+  tls: true,
+  connTimeout: 10000, // Default by node-imap
+  authTimeout: 5000, // Default by node-imap,
+  debug: console.log, // Or your custom function with only one incoming argument. Default: null
+  tlsOptions: { rejectUnauthorized: false },
+  mailbox: "INBOX", // mailbox to monitor
+  searchFilter: ["UNSEEN"], // the search filter being used after an IDLE notification has been retrieved
+  markSeen: true, // all fetched email willbe marked as seen and not fetched next time
+  fetchUnreadOnStart: true, // use it only if you want to get all unread email on lib start. Default is `false`,
+  mailParserOptions: {streamAttachments: true}, // options to be passed to mailParser lib.
+  attachments: true, // download attachments as they are encountered to the project directory
+  attachmentOptions: { directory: "attachments/" } // specify a download directory for attachments
+});
+
+mailListener.start(); // start listening
+
+mailListener.on("server:connected", function(){
+  console.log("imapConnected");
+});
+
+mailListener.on("server:disconnected", function(){
+  console.log("imapDisconnected");
+});
+
+mailListener.on("error", function(err){
+  console.log(err);
+});
+
+mailListener.on("mail", function(mail, seqno, attributes){
+  // do something with mail object including attachments
+    console.log("HERE'S AN EMAIL --------------------->");
+  //console.log("emailParsed", mail);
+    //var parsedUid = mail.match(/UID:.*##/);
+    console.log(mail.text.match(/UID:.*##/));
+  // mail processing code goes here
+});
