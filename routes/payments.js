@@ -3,7 +3,7 @@ var drinkshistory = require('./drinkshistory');
  
 exports.qrcode = function(History) {
     return function (req, res) {
-        QRCode.toDataURL('https://www.mobilepay.dk/erhverv/betalingslink/betalingslink-svar?phone=123456798&amount=' + req.body.amount + '&comment=UID:' + req.body.uid + '--&lock=1', function (err, url) {
+        QRCode.toDataURL('https://www.mobilepay.dk/erhverv/betalingslink/betalingslink-svar?phone=' + process.env.MOBILE_NUMBER + '&amount=' + req.body.amount + '&comment=UID:' + req.body.uid + '--&lock=1', function (err, url) {
             // Add the drink to the history
             var history = new History(req.body.history);
             history.save(function (err, drink) {
