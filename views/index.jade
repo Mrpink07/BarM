@@ -181,7 +181,14 @@ block foot
         p Scan QR-koden nedenfor ved hjælp af MobilePay-appen til at betale
         p Please scan the QR code below using the MobilePay app to pay
       div.payment-qr-container
-        img.payment-qr
+        img.payment-qr(src="/images/spinner.gif")
+      div.payment-cancel-container
+        p 
+          | Venter på betaling...
+          br
+          | Waiting for payment...
+        a(href="#",onclick="cancelPayment()")
+          button.btn.btn-primary.btn-lg#cancel-btn Cancel
 
 
   script(type='text/javascript', src='/javascripts/error-checking.js')

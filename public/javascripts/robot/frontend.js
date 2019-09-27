@@ -3,6 +3,16 @@ var $scope;
 
 var msPerMl = 125; // This is how long it takes to pour 1 ml
 
+// Payment cancel function
+function cancelPayment() {
+    // Update the drinks history schema
+    $.post('/paymentCancel.json', { uid: $scope.selectedDrink.drinkId }).success(function (data) {
+        if(data)
+            $('#cancel-btn').html('<img src="/images/spinner.gif" />');
+            setTimeout(function() { location.reload(); }, 1000);
+    });
+}
+
 
 $(document).ready(function () {
   $scope = angular.element($('#drinkScope')).scope();
@@ -72,11 +82,13 @@ $(document).ready(function () {
     history.ingredients = $scope.selectedDrink.ingredients;
     history.drinkSize = $scope.drinkSize;
     history.uid = $scope.selectedDrink.drinkId;
+
+    // Show the overlay while we get the QR code
+    $('.payment-overlay').show();
     
     // Get the QR Code
     $.post('/qrcode.json', { amount: $scope.selectedDrink.price, uid: $scope.selectedDrink.drinkId, history: history }).success(function (data) {
         $('.payment-qr').attr('src', data);
-        $('.payment-overlay').show();
 
         // Check the payment status
         checkStatus();
@@ -90,7 +102,7 @@ $(document).ready(function () {
         // If the result was false then check again in a few secs
         console.log(data);
         if (data === false) {
-            setTimeout(checkStatus(), 5000);
+            setTimeout(function() { checkStatus(); }, 3000);
         } else {
             console.log("POUR!");
             $('.payment-overlay').hide();

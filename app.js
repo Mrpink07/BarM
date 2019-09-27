@@ -80,6 +80,7 @@ app.post('/email.json', email.email());
 app.post('/adddrinkhistory.json', drinksHistory.add(History));
 app.post('/qrcode.json', payments.qrcode(History));
 app.post('/paymentStatus.json', payments.status(History));
+app.post('/paymentCancel.json', payments.cancel(History));
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
@@ -185,10 +186,23 @@ mailListener.on("error", function(err){
 });
 
 mailListener.on("mail", function(mail, seqno, attributes){
-  // do something with mail object including attachments
+    // do something with mail object including attachments
     console.log("HERE'S AN EMAIL --------------------->");
-  //console.log("emailParsed", mail);
-    //var parsedUid = mail.match(/UID:.*##/);
-    console.log(mail.text.match(/UID:.*##/));
-  // mail processing code goes here
+
+    // Search the email for a UID
+    if (mail.text.match(/UID:(.*)--/) !== 'undefined' && mail.text.match(/UID:(.*)--/) != null && mail.text.match(/UID:(.*)--/).length > 0) {
+        var parsedUid = mail.text.match(/UID:(.*)--/)[1];
+    
+        console.log(parsedUid);
+    
+        // mail processing code goes here
+        History.findOneAndUpdate({ uid: parsedUid }, 
+        {
+            paid: true
+        },
+        function(err, history) {
+            console.log(history);
+        });
+    }
+    
 });

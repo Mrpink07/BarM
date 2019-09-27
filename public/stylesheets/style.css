@@ -556,3 +556,7 @@ footer {
   padding: 0px;
   margin: 0px;
 }
+
+.payment-cancel-container {
+  margin-top: 45px;
+}

@@ -8,6 +8,7 @@ exports.HistorySchema = new Mongoose.Schema({
   price: { type: Number, required: false },
   uid: { type: String, required: false },
   paid: { type: Boolean, required: false, default: false },
+  cancelled: { type: Boolean, required: false, default: false },
   drinkSize: { type: String, required: false },
   date: { type: Date, default: Date.now },
   ingredients: [{
