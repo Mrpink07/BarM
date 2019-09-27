@@ -48,3 +48,6 @@ Temporary Items
 
 # Images - these will be upload by the user
 public/images
+
+# .env file with email login details
+.env

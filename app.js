@@ -10,6 +10,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var MailListener = require("mail-listener2");
+require('dotenv').config();
 
 var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -153,11 +154,11 @@ module.exports = app;
 // Mail listener
 // This is the function to listen to our mailbox for incoming drink payments, and update the database when we get one
 var mailListener = new MailListener({
-  username: "barmachinatest@netlocomotion.com",
-  password: "BarMachinaTest123!",
-  host: "mail.netlocomotion.com",
-  port: 993, // imap port
-  tls: true,
+  username: process.env.IMAP_USER,
+  password: process.env.IMAP_PASS,
+  host: process.env.IMAP_HOST,
+  port: process.env.IMAP_PORT, // imap port
+  tls: process.env.IMAP_TLS,
   connTimeout: 10000, // Default by node-imap
   authTimeout: 5000, // Default by node-imap,
   debug: console.log, // Or your custom function with only one incoming argument. Default: null
@@ -187,7 +188,7 @@ mailListener.on("error", function(err){
 
 mailListener.on("mail", function(mail, seqno, attributes){
     // do something with mail object including attachments
-    console.log("HERE'S AN EMAIL --------------------->");
+    console.log("HERE'S AN EMAIL");
 
     // Search the email for a UID
     if (mail.text.match(/UID:(.*)--/) !== 'undefined' && mail.text.match(/UID:(.*)--/) != null && mail.text.match(/UID:(.*)--/).length > 0) {
