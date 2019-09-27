@@ -14,7 +14,7 @@ setInterval(function () {
       }
     },
   });
-}, 2000);
+}, 5000);
 
 
 // Check connection to internet

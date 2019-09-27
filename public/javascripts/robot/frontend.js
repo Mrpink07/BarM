@@ -3,6 +3,16 @@ var $scope;
 
 var msPerMl = 125; // This is how long it takes to pour 1 ml
 
+// Payment cancel function
+function cancelPayment() {
+    // Update the drinks history schema
+    $.post('/paymentCancel.json', { uid: $scope.selectedDrink.drinkId }).success(function (data) {
+        if(data)
+            $('#cancel-btn').html('<img src="/images/spinner.gif" />');
+            setTimeout(function() { location.reload(); }, 1000);
+    });
+}
+
 
 $(document).ready(function () {
   $scope = angular.element($('#drinkScope')).scope();
@@ -34,6 +44,15 @@ $(document).ready(function () {
     }
   }
 */
+    // Function for creating UIDs
+    var UID = function () {
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return Math.random().toString(36).substr(2, 9);
+    };
+    
+
   // Front end drink making
   $('#make').on('click touch', function () {
     if ($('#make').hasClass('noselection') === true) {
@@ -51,6 +70,48 @@ $(document).ready(function () {
       return;
     }
 
+    // Get an ID for this drink
+    $scope.selectedDrink.drinkId = UID();
+
+    // Set up the object for the drink history
+    var history = {};
+    history.name = $scope.selectedDrink.name;
+    history.image = $scope.selectedDrink.image;
+    history.measurement = $scope.selectedDrink.measurement;
+    history.price = $scope.selectedDrink.price;
+    history.ingredients = $scope.selectedDrink.ingredients;
+    history.drinkSize = $scope.drinkSize;
+    history.uid = $scope.selectedDrink.drinkId;
+
+    // Show the overlay while we get the QR code
+    $('.payment-overlay').show();
+    
+    // Get the QR Code
+    $.post('/qrcode.json', { amount: $scope.selectedDrink.price, uid: $scope.selectedDrink.drinkId, history: history }).success(function (data) {
+        $('.payment-qr').attr('src', data);
+
+        // Check the payment status
+        checkStatus();
+    });
+  });
+  
+  // Check payment status on a loop
+  function checkStatus() {
+    // Check the payment status
+    $.post('/paymentStatus.json', { uid: $scope.selectedDrink.drinkId }).success(function (data) {
+        // If the result was false then check again in a few secs
+        console.log(data);
+        if (data === false) {
+            setTimeout(function() { checkStatus(); }, 3000);
+        } else {
+            console.log("POUR!");
+            $('.payment-overlay').hide();
+            pourThatDrink();
+        }
+    });
+  }
+  
+  function pourThatDrink() {
     // Visual goodies
     console.log('Making Drink');
     $('#make').addClass('disabled');
@@ -151,7 +212,7 @@ $(document).ready(function () {
 
     // Start dispensing drink
     makeDrink($scope.selectedDrink, $scope.selectedDrink.ingredients, $scope.pumps, parseInt($scope.drinkSize), $scope.ings);
-  });
+  }
   
   // $('.drinkName').mouseover(function () {
   //   $(this).parent().parent().children('.hiddenIngredientFloat').show();
@@ -439,21 +500,21 @@ function makeDrink(drink, ingredients, pumps, drinkSize, ings) {
     }
     
 
-    // Set up the object for the drink history
-    var history = {};
-    history.name = $scope.selectedDrink.name;
-    history.image = $scope.selectedDrink.image;
-    history.measurement = $scope.selectedDrink.measurement;
-    history.price = $scope.selectedDrink.price;
-    history.ingredients = $scope.selectedDrink.ingredients;
-    history.drinkSize = $scope.drinkSize;
+//     // Set up the object for the drink history
+//     var history = {};
+//     history.name = $scope.selectedDrink.name;
+//     history.image = $scope.selectedDrink.image;
+//     history.measurement = $scope.selectedDrink.measurement;
+//     history.price = $scope.selectedDrink.price;
+//     history.ingredients = $scope.selectedDrink.ingredients;
+//     history.drinkSize = $scope.drinkSize;
     
-    console.log(history);
-
-    $.post('/adddrinkhistory.json', history).success(function (data) {
-        console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
-        console.log(data);
-    });
+//     console.log(history);
+// 
+//     $.post('/adddrinkhistory.json', history).success(function (data) {
+//         console.log("Successfully updated ingredient quantity for " + $scope.newIngs[i].name);
+//         console.log(data);
+//     });
 
     
   // Add the largest delay onto the total time
